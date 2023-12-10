@@ -1,0 +1,21 @@
+{
+    "BuildMode": {
+        "ExampleMod.CustomTable": "Custom Table",
+        "ExampleMod.CrossedWallpaper": "Crossed Wallpaper"
+    },
+    "Clothes": {
+        "ExampleMod.DarkShirt": "Dark Shirt",
+        "ExampleMod.PastelPants": "Pastel Pants",
+        "ExampleMod.PastelShoes": "Pastel Shoes",
+        "ExampleMod.WeirdHair": "Weird Hair"
+    },
+    "Emotions": {
+        "ExampleMod.GrassSitting": "Comfy Green Ground"
+    },
+    "Actions": {
+        "ExampleMod.SitOnGrass": "Sit on Grass"
+    },
+    "Ui": {
+        "ExampleMod.DarkShirtSpeedOption": "Dark Shirt Speed"
+    }
+}
