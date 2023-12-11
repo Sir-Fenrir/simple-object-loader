@@ -20,6 +20,14 @@
         <Content Include="./Content/**">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
+        <Content Include="Content\SimpleObjectLoader\CustomBottomsShoes.png" />
+        <Content Include="Content\SimpleObjectLoader\CustomFurniture.atlas" />
+        <Content Include="Content\SimpleObjectLoader\CustomFurniture.png" />
+        <Content Include="Content\SimpleObjectLoader\CustomHairs.png" />
+        <Content Include="Content\SimpleObjectLoader\CustomTops.png" />
+        <Content Include="Content\SimpleObjectLoader\Localization\en.json" />
+        <Content Include="Content\SimpleObjectLoader\UiTextures.png" />
+        <Content Include="Content\SimpleObjectLoader\Wallpapers.png" />
         <Content Include="SteamThumbnail.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>

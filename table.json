@@ -1,0 +1,7 @@
+{
+  "modId":  "Test",
+  "type": "Table",
+  "categories": ["Table"],
+  "name":  "CustomTable",
+  "texturePath": "./Content/ExampleMod/CustomFurniture.png"
+}
