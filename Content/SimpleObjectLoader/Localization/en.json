@@ -1,6 +1,6 @@
 {
     "BuildMode": {
-        "SimpleObjectLoader.CustomTable": "Custom Table",
+        "SimpleObjectLoader.Test.CustomTable": "Custom Table",
         "SimpleObjectLoader.CrossedWallpaper": "Crossed Wallpaper"
     },
     "Clothes": {

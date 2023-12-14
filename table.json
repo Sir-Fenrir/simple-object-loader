@@ -3,5 +3,8 @@
   "type": "Table",
   "categories": ["Table"],
   "name":  "CustomTable",
-  "texturePath": "./Content/ExampleMod/CustomFurniture.png"
+  "texturePath": "./Content/ExampleMod/CustomFurniture.png",
+  "size": [ 1, 1 ],
+  "colorSchemes": [ "Pastel", "SimpleWood" ],
+  "TableSpots":  [1, 1]
 }
