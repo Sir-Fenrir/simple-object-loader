@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="DynamicEnums" Version="1.0.1" />
         <PackageReference Include="TinyLifeApi" Version="0.38.2" />
 
         <PackageReference Include="ExtremelySimpleLogger" Version="1.4.1" />
