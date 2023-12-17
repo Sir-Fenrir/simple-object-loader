@@ -30,62 +30,15 @@ public class SimpleObjectLoader : Mod
     public override void Initialize(Logger logger, RawContentManager content, RuntimeTexturePacker texturePacker, ModInfo info)
     {
         SimpleObjectLoader.Logger = logger;
-        Logger.Info("Initialize");
-
         ObjectConfigs = new ObjectConfigLoader().GetMods();
     }
     public override void AddGameContent(GameImpl game, ModInfo info)
     {
+        Logger.Info("Adding game content");
+
         foreach (var item in ObjectConfigs)
         {
-            var combinedCategories = EnvironmentUtils.ParseCategories(item.Categories);
-
-            Logger.Info(combinedCategories.ToString());
-
-            var selectedColorSchemes = EnvironmentUtils.ParseColorSchemes(item.ColorSchemes);
-
-            Logger.Info(selectedColorSchemes.Length);
-
-            var newFurniture =
-                new FurnitureType.TypeSettings($"SimpleObjectLoader.{item.ModId}.{item.Name}",
-                new Point(item.Size[0], item.Size[1]),
-                combinedCategories,
-                item.Price,
-                selectedColorSchemes);
-
-            if (item.ActionSpots != null)
-            {
-                Logger.Info(EnvironmentUtils.Directions[item.ActionSpots[0].Direction].Length);
-                newFurniture.ActionSpots = item.ActionSpots
-                    .Select(spot =>
-                    new ActionSpot(
-                        new Vector2(spot.VectorX, spot.VectorY),
-                        spot.YOffset,
-                        EnvironmentUtils.Directions[spot.Direction])
-                    {
-                        DrawLayer = f => spot.DrawLayer
-                    })
-                    .ToArray();
-            }
-
-            if (item.ColorMap != null)
-            {
-                newFurniture.ColorMap = item.ColorMap;
-            }
-
-            // Set special ConstructedType, if any
-            if (EnvironmentUtils.Types.TryGetValue(item.Type, out var type))
-            {
-                newFurniture.ConstructedType = type;
-            }
-
-            if (item.TableSpots?.Length > 0)
-            {
-                newFurniture.ObjectSpots = ObjectSpot.TableSpots(new Point(item.TableSpots[0], item.TableSpots[1])).ToArray();
-            }
-
-            FurnitureType.Register(newFurniture);
-
+            new FurnitureBuilder(item).Build();
         }
 
     }

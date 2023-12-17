@@ -5,24 +5,31 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using TinyLife.Objects;
 using TinyLife.Utilities;
-using static MLEM.Graphics.StaticSpriteBatch;
 
 namespace SimpleObjectLoader.Utils
 {
+    /// <summary>
+    /// Helper class to index things like existing categories and furniture types,
+    /// to make creating new objects easier.
+    /// </summary>
     internal class EnvironmentUtils
     {
 
+        /// <summary>
+        /// A dictionary of all possible furniture types.
+        /// </summary>
         static public readonly Dictionary<string, Type> Types;
 
         static private readonly Dictionary<string, ColorScheme> ColorSchemes;
 
+        /// <summary>
+        /// A dictionary of all possible predefined directions.
+        /// </summary>
         static public readonly Dictionary<string, Direction2[]> Directions;
 
-        public static Logger Logger = SimpleObjectLoader.Logger;
+        private static Logger Logger = SimpleObjectLoader.Logger;
 
         static EnvironmentUtils()
         {
@@ -39,17 +46,25 @@ namespace SimpleObjectLoader.Utils
 
         }
 
+        /// <summary>
+        /// As the ColorSchemes given in <see cref="ObjectConfig"/> are all strings, 
+        /// we need to parse them into usable versions.
+        /// 
+        /// Invalid schemes are logged.
+        /// </summary>
+        /// <param name="schemes">The schemes to parse</param>
+        /// <returns>All succesfully parsed schemes.</returns>
         public static ColorScheme[] ParseColorSchemes(string[] schemes)
         {
-            SimpleObjectLoader.Logger.Info(ColorSchemes.Count);
             ColorScheme[] found = [];
             foreach (var scheme in schemes)
             {
                 ColorSchemes.TryGetValue(scheme, out var result);
-                if(result != null)
+                if (result != null)
                 {
                     found = found.AddToArray(result);
-                } else
+                }
+                else
                 {
                     Logger.Warn($"Unknown color scheme requested: {scheme}");
                 }
@@ -57,12 +72,21 @@ namespace SimpleObjectLoader.Utils
             return found;
         }
 
+        /// <summary>
+        /// As the Categories given in <see cref="ObjectConfig"/> are all strings, 
+        /// we need to parse them into usable versions.
+        /// </summary>
+        /// <param name="categories">The categories in string format</param>
+        /// <returns>One category, made out of the string categories</returns>
         public static ObjectCategory ParseCategories(string[] categories)
         {
             var stringCategories = categories.Aggregate((x, y) => $"{x}|{y}");
             return ObjectCategory.Parse<ObjectCategory>(stringCategories);
         }
 
+        /// <summary>
+        /// Here we search the loaded assemblies for all possible furniture types.
+        /// </summary>
         private static Dictionary<string, Type> GetFurnitureTypes()
         {
             return AppDomain.CurrentDomain
@@ -75,7 +99,10 @@ namespace SimpleObjectLoader.Utils
                 );
         }
 
-        
+        /// <summary>
+        /// Method to try and read all types in an assembly.
+        /// In case of failure, the assembly is ignored.
+        /// </summary>
         private static List<Type> TryExtractTypesFromAssembly(Assembly assembly)
         {
             List<Type> types = [];
@@ -100,6 +127,9 @@ namespace SimpleObjectLoader.Utils
 
         }
 
+        /// <summary>
+        /// Helper method to create a dictionary of <see cref="ColorScheme"/>s.
+        /// </summary>
         private static Dictionary<string, ColorScheme> CreateColorSchemeMap()
         {
             return typeof(ColorScheme).GetFields()
@@ -109,7 +139,11 @@ namespace SimpleObjectLoader.Utils
             );
         }
 
-        // Sadly some duplication, as I can't pass static types as type parameters
+        /// <summary>
+        /// Helper method to create a dictionary of <see cref="Direction2"/> arrays.
+        /// 
+        /// Seems like a duplication, but I can't use static types as typ arguments.
+        /// </summary>
         private static Dictionary<string, Direction2[]> CreateDirectionsMap()
         {
             return typeof(Direction2Helper).GetFields()
