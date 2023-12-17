@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="DynamicEnums" Version="1.0.1" />
+        <PackageReference Include="TinyLifeApi" Version="0.38.2" />
+
+        <PackageReference Include="ExtremelySimpleLogger" Version="1.4.1" />
+        <PackageReference Include="Lib.Harmony" Version="2.2.2" />
+        <PackageReference Include="MLEM.Data" Version="6.2.0" />
+        <PackageReference Include="MLEM.Extended" Version="6.2.0" />
+        <PackageReference Include="MLEM.Startup" Version="6.2.0" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.1.303" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="./Content/**">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+        <None Remove="Content\SimpleObjectLoader\CustomFurniture_.atlas" />
+        <None Remove="Content\SimpleObjectLoader\CustomFurniture_.png" />
+        <Content Include="Content\SimpleObjectLoader\CustomBottomsShoes.png" />
+        <Content Include="Content\SimpleObjectLoader\CustomFurniture.atlas" />
+        <Content Include="Content\SimpleObjectLoader\CustomFurniture.png" />
+        <Content Include="Content\SimpleObjectLoader\CustomFurniture_.atlas" />
+        <Content Include="Content\SimpleObjectLoader\CustomFurniture_.png" />
+        <Content Include="Content\SimpleObjectLoader\CustomHairs.png" />
+        <Content Include="Content\SimpleObjectLoader\CustomTops.png" />
+        <Content Include="Content\SimpleObjectLoader\Localization\en.json" />
+        <Content Include="Content\SimpleObjectLoader\UiTextures.png" />
+        <Content Include="Content\SimpleObjectLoader\Wallpapers.png" />
+        <Content Include="SteamThumbnail.png">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+</Project>

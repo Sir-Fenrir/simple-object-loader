@@ -1,0 +1,21 @@
+{
+    "BuildMode": {
+        "SimpleObjectLoader.Test.CustomTable": "Custom Table",
+        "SimpleObjectLoader.CrossedWallpaper": "Crossed Wallpaper"
+    },
+    "Clothes": {
+        "SimpleObjectLoader.DarkShirt": "Dark Shirt",
+        "SimpleObjectLoader.PastelPants": "Pastel Pants",
+        "SimpleObjectLoader.PastelShoes": "Pastel Shoes",
+        "SimpleObjectLoader.WeirdHair": "Weird Hair"
+    },
+    "Emotions": {
+        "SimpleObjectLoader.GrassSitting": "Comfy Green Ground"
+    },
+    "Actions": {
+        "SimpleObjectLoader.SitOnGrass": "Sit on Grass"
+    },
+    "Ui": {
+        "SimpleObjectLoader.DarkShirtSpeedOption": "Dark Shirt Speed"
+    }
+}
