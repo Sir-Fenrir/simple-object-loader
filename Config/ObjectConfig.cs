@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace SimpleObjectLoader
+namespace SimpleObjectLoader.Config
 {
     internal class ObjectConfig
     {
+
+        public string FilePath {  get; set; }
         public string ModId { get; set; }
         public string Type { get; set; }
 
@@ -15,7 +13,7 @@ namespace SimpleObjectLoader
 
         public int Price { get; set; }
 
-        public List<string> Categories { get; set; }
+        public string[] Categories { get; set; }
         public string TexturePath { get; set; }
 
         public string Atlas { get; set; }
