@@ -1,4 +1,5 @@
-# Tiny Life Example Mod
-An example mod for my game Tiny Life. Use this template repository to create your own mod!
+# Simple Object Loader
 
-To learn how to use the example mod repository and create your own mods, check out the [Modding Basics](https://docs.tinylifegame.com/articles/mod_basics.html) documentation.
+Made to make the creation of new furniture etc. easier, as long as no complex behaviors are required.
+
+More documentation to follow!

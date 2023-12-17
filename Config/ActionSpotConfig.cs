@@ -1,6 +1,11 @@
 ﻿namespace SimpleObjectLoader.Config
 {
-    internal class ActionSpotConfig
+    /// <summary>
+    /// As I understand for now, these properties are necessary 
+    /// for determining the location of the Tiny relative to the 
+    /// object while interacting with it.
+    /// </summary>
+    public class ActionSpotConfig
     {
 
         public float VectorX { get; set; }
