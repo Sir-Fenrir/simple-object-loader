@@ -1,5 +1,6 @@
 ﻿using SimpleObjectLoader.Utils;
 using System.Collections.Generic;
+using MLEM.Misc;
 
 namespace SimpleObjectLoader.Config
 {
@@ -31,6 +32,11 @@ namespace SimpleObjectLoader.Config
         public string[] Categories { get; set; }
 
         /// <summary>
+        /// For when you want to specify which tab the object appears in in the build menu.
+        /// </summary>
+        public string Tab {  get; set; }
+
+        /// <summary>
         /// If this object requires a specific texture (like wallpapers or clothing), we need the name of the file.
         /// </summary>
         public string TextureFile { get; set; }
@@ -48,8 +54,14 @@ namespace SimpleObjectLoader.Config
 
         /// <summary>
         /// The ColorSchemes you want to use for the furniture, can be multiple.
+        /// For options, see <see cref="ColorSchemes"/>
         /// </summary>
         public string[] ColorSchemes { get; set; }
+
+        /// <summary>
+        /// In case you want to set a default rotation for the object, for options see <see cref="Direction2"/>
+        /// </summary>
+        public string DefaultRotation { get; set; }
 
         /// <summary>
         /// If you're creating a table, you need some spots to sit. Generally this can be the same as <see cref="Size"/>.
