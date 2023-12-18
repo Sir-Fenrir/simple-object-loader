@@ -9,6 +9,7 @@ using System.Linq;
 using TinyLife;
 using TinyLife.Mods;
 using TinyLife.Objects;
+using TinyLife.Tools;
 
 namespace SimpleObjectLoader;
 
@@ -31,6 +32,7 @@ public class SimpleObjectLoader : Mod
     {
         SimpleObjectLoader.Logger = logger;
         ObjectConfigs = new ObjectConfigLoader().GetMods();
+        LocalizationUtils.ReadLocalizationFiles(ObjectConfigs);
     }
     public override void AddGameContent(GameImpl game, ModInfo info)
     {

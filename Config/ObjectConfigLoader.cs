@@ -30,7 +30,7 @@ namespace SimpleObjectLoader.Config
         {
             var objectConfigs = Directory
                 .GetFiles(ModLoader.GetModsFolder().FullName, CONFIG_EXTENSION, SearchOption.AllDirectories)
-                .SelectMany(file => MapFileToObject(file))
+                .SelectMany(MapFileToObject)
                 .ToList();
 
             Logger.Info($"{objectConfigs.Count} mods discovered");

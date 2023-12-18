@@ -1,11 +1,10 @@
-﻿using ExtremelySimpleLogger;
-using HarmonyLib;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
+using MLEM.Misc;
 using SimpleObjectLoader.Config;
-using System.Collections.Generic;
+using System;
 using System.Linq;
-using System.Reflection;
 using TinyLife.Objects;
+using TinyLife.Tools;
 
 namespace SimpleObjectLoader.Utils
 {
@@ -26,13 +25,13 @@ namespace SimpleObjectLoader.Utils
 
             var selectedColorSchemes = EnvironmentUtils.ParseColorSchemes(config.ColorSchemes);
             _typeSettings = new FurnitureType.TypeSettings($"SimpleObjectLoader.{config.ModId}.{config.Name}",
-            new Point(config.Size[0], config.Size[1]),
+            new Point(_config.Size[0], _config.Size[1]),
                 combinedCategories,
-                config.Price,
+                _config.Price,
                 selectedColorSchemes);
 
             // Set special ConstructedType, if any
-            if (EnvironmentUtils.Types.TryGetValue(config.Type, out var type))
+            if (EnvironmentUtils.Types.TryGetValue(_config.Type, out var type))
             {
                 _typeSettings.ConstructedType = type;
             }
@@ -52,7 +51,7 @@ namespace SimpleObjectLoader.Utils
         [HandlerFor("ActionSpots")]
         public void ActionSpots()
         {
-            _typeSettings.ActionSpots = config.ActionSpots
+            _typeSettings.ActionSpots = _config.ActionSpots
                     .Select(spot =>
                     new ActionSpot(
                         new Vector2(spot.VectorX, spot.VectorY),
@@ -83,10 +82,28 @@ namespace SimpleObjectLoader.Utils
             [
                 .. ObjectSpot.TableSpots(
                                 new Point(
-                                    config.TableSpots[0],
-                                    config.TableSpots[1])
+                                    _config.TableSpots[0],
+                                    _config.TableSpots[1])
                                 ),
             ];
+        }
+
+        /// <summary>
+        /// Executed if the <see cref="ObjectConfig.DefaultRotation"/> property is not null.
+        /// </summary>
+        [HandlerFor("DefaultRotation")]
+        public void DefaultRotation()
+        {
+            _typeSettings.DefaultRotation = Enum.Parse<Direction2>(config.DefaultRotation, true);
+        }
+
+        /// <summary>
+        /// Executed if the <see cref="ObjectConfig.Tab"/> property is not null.
+        /// </summary>
+        [HandlerFor("Tab")]
+        public void Tab()
+        {
+            _typeSettings.Tab = Enum.Parse<FurnitureTool.Tab>(_config.Tab);
         }
     }
 }
