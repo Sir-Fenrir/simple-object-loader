@@ -21,25 +21,14 @@
         <Content Include="./Content/**">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
-        <None Remove="Content\SimpleObjectLoader\CustomFurniture_.atlas" />
-        <None Remove="Content\SimpleObjectLoader\CustomFurniture_.png" />
-        <None Remove="content\simpleobjectloader\localization\en.json" />
-        <Content Include="Content\SimpleObjectLoader\CustomBottomsShoes.png" />
-        <Content Include="Content\SimpleObjectLoader\CustomFurniture.atlas" />
-        <Content Include="Content\SimpleObjectLoader\CustomFurniture.png" />
-        <Content Include="Content\SimpleObjectLoader\CustomFurniture_.atlas" />
-        <Content Include="Content\SimpleObjectLoader\CustomFurniture_.png" />
-        <Content Include="Content\SimpleObjectLoader\CustomHairs.png" />
-        <Content Include="Content\SimpleObjectLoader\CustomTops.png" />
-        <Content Include="content\simpleobjectloader\localization\en.json" />
-        <Content Include="Content\SimpleObjectLoader\UiTextures.png" />
-        <Content Include="Content\SimpleObjectLoader\Wallpapers.png" />
+        <None Remove="Content\Simpleobjectloader\localization\en.json" />
+        <Content Include="Content\Simpleobjectloader\localization\en.json" />
         <Content Include="SteamThumbnail.png">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </Content>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Content\SimpleObjectLoader\Localization\" />
+      <Folder Include="Content\Simpleobjectloader\Localization\" />
     </ItemGroup>
 </Project>

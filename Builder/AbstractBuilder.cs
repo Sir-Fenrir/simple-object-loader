@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace SimpleObjectLoader.Utils
+namespace SimpleObjectLoader.Builder
 {
     /// <summary>
     /// Base class to quickly create new types of object builders.

@@ -2,6 +2,7 @@ using ExtremelySimpleLogger;
 using Microsoft.Xna.Framework;
 using MLEM.Data;
 using MLEM.Data.Content;
+using SimpleObjectLoader.Builder;
 using SimpleObjectLoader.Config;
 using SimpleObjectLoader.Utils;
 using System.Collections.Generic;

@@ -43,9 +43,6 @@ namespace SimpleObjectLoader.Utils
             Types = GetFurnitureTypes();
             ColorSchemes = CreateColorSchemeMap();
             Directions = CreateDirectionsMap();
-
-            Directions.Do(entry => SimpleObjectLoader.Logger.Info($"{entry.Key}, {entry.Value.Length}"));
-
         }
 
         /// <summary>

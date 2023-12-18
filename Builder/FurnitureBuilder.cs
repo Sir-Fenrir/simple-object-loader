@@ -1,12 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using MLEM.Misc;
 using SimpleObjectLoader.Config;
+using SimpleObjectLoader.Utils;
 using System;
 using System.Linq;
 using TinyLife.Objects;
 using TinyLife.Tools;
 
-namespace SimpleObjectLoader.Utils
+namespace SimpleObjectLoader.Builder
 {
     /// <summary>
     /// Dynamically builds a piece of furniture based on the properties filled in the JSON file.
@@ -29,7 +30,11 @@ namespace SimpleObjectLoader.Utils
                 combinedCategories,
                 _config.Price,
                 selectedColorSchemes);
+        }
 
+        [HandlerFor("Type")]
+        public void Type()
+        {
             // Set special ConstructedType, if any
             if (EnvironmentUtils.Types.TryGetValue(_config.Type, out var type))
             {
@@ -104,6 +109,12 @@ namespace SimpleObjectLoader.Utils
         public void Tab()
         {
             _typeSettings.Tab = Enum.Parse<FurnitureTool.Tab>(_config.Tab);
+        }
+
+        [HandlerFor("NeedModifier")]
+        public void NeedModifier()
+        {
+            _typeSettings.RestoreNeedModifier = _config.NeedModifier;
         }
     }
 }
