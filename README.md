@@ -23,57 +23,72 @@ The file you made contains the configuration for your objects. You can either ha
 All (currently) supported properties are as follows:
 
 **modId**
+
 Unique name for the mod. You can have multiple items with the same identifier, but the name needs to be unique within this mod.
 
 **type**
+
 This is for specific types of furniture, the possible types are listed under the <b>Derived</b> section on <see href="https://docs.tinylifegame.com/api/TinyLife.Objects.Furniture.html"/>.
 
 **name**
+
 The name of the item when registering it.
 NOTE: This is not the name used in the game, for that we need the localization files.
 This name is used to find the relevant entries in the localization files and the atlas file.
 
 **price**
+
 The price of the object, if relevant.
 
 **categories**
+
 The categories this object belongs to, if applicable. 
 The possible categories are listed on https://docs.tinylifegame.com/api/TinyLife.Objects.ObjectCategory.html under the header **Fields**.
 
 **tab**
+
 For when you want to specify which tab the object appears in in the build menu.
 Possible tabs are under the tag <b>Fields</b> on https://docs.tinylifegame.com/api/TinyLife.Tools.FurnitureTool.Tab.html.
 
 **textureFile** *(Not yet used)*
+
 If this object requires a specific texture (like wallpapers or clothing), we need the name of the file.
 
 **atlas**
+
 When adding furniture, we need an atlas file describing the orientation of the texture file of the same name.
 
 **size**
+
 If you're creating furniture, we need the size. It expects an array of two values, 
 the first being the x, the second being the y, for example: \[1, 1]
 
 **colorSchemes**
+
 The ColorSchemes you want to use for the furniture, can be multiple.
 For options, take a look under the header <b>Fields</b> on https://docs.tinylifegame.com/api/TinyLife.Utilities.ColorScheme.html.
 
 **defaultRotation**
+
 In case you want to set a default rotation for the object, for options see https://mlem.ellpeck.de/api/MLEM.Misc.Direction2.html.
 
 **tableSpots**
+
 If you're creating a table, you need some spots to sit. Generally this can be the same as Size.
 
 **actionSpots**
+
 All the places a Tiny can interact with/from with the furniture. I'll be honest, not 100% sure on how this works. Best understood by seeing this example mod: https://github.com/Sir-Fenrir/tiny-life-simple-expensive-chair
 
 **colorMap**
+
 Set the colors for the different layers, if applicable.
 It is an array, with as many elements as there are layers in your textures. 
 The numbers in it correspond to the given ColorSchemes. 
 If you have three layers and two ColorSchemes, this could be \[1, 0, 1], with the 0 referencing the first ColorScheme, the 1 the second.
 
 **needModifier**
+
 When this value is set, it modifies the need restoration rate of the need for this type of furniture. It should be a decimal value using points, not comma's (i.e., 1.25).
 
 ### actionSpots
@@ -88,6 +103,7 @@ These properties are as follows, but I have to admit, I'm not much of a texture-
 **yOffset**
 
 **direction**
+
 For options for this, look under the **Fields** section on https://mlem.ellpeck.de/api/MLEM.Misc.Direction2Helper.html.
 
 **drawLayer**
@@ -179,6 +195,13 @@ Yes, that is correct. Basically, the game spots _my_ mod, but not _your_ mod, be
 # Supported items
 Frankly, not sure. I have tested chairs and tables, but I haven't tested more types of items, like fridges or beds. I will work on this, but it's a hobby project and I am probably straining my RSI arms too much already :')
 If you have tested a different kind of item and it didn't work, please open an issue here on GitHub!
+
+# Example mods
+There are two right now:
+
+https://github.com/Sir-Fenrir/tiny-life-simple-expensive-chair
+ 
+https://github.com/Sir-Fenrir/tiny-life-simple-custom-table
 
 # Future Features
 I have some plans for upcoming features:
