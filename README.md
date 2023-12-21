@@ -17,14 +17,62 @@ To create mods for the Simple Object Loader, you'll need to use _JSON_, a standa
 
 If you still have questions, there are many resources available online, just a Google-search away.
 
+_(JSON5 and JSONC are also supported)_
+
 ## .simple.json
-The file you made contains the configuration for your objects. You can either have one JSON object, or an array of JSON objects for multiple new objects.
+The file you made contains the configuration for your objects. Let's look at a (partial) example:
 
-All (currently) supported properties are as follows:
+```json
 
-**modId**
+{
+	"modId": "SimpleExample",
+	
+	"furniture": [
 
-Unique name for the mod. You can have multiple items with the same identifier, but the name needs to be unique within this mod.
+	],
+
+	"clothes": [
+
+	]
+}
+
+```
+
+First off, your mod needs a unique identifier. This is not shown ingame, but it's necessary to make sure that if you add an item with the same name as someone else's item, they can both exist in de game.
+
+Then you can zero or more furniture items, and zero or more clothes.
+
+Per type of item you can add, there are properties you can supply, some are optional, some aren't.
+
+### Furniture
+Here is an example for a piece of furniture:
+
+```json
+
+{
+	"categories": ["Chair"],
+	"name":  "ExpensiveChair",
+	"tab": "LivingRoom",
+	"price": 500,
+	"atlas": "ExpensiveChair",
+	"size": [ 1, 1 ],
+	"colorSchemes": [ "SimpleWood", "Modern" ],
+	"actionSpots": [
+	{
+		"vectorX": 0,
+		"vectorY": 0,
+		"yOffset": -0.2,
+		"direction": "Adjacent",
+		"drawLayer": 1
+	}
+	],
+	"defaultRotation": "Down",
+	"colorMap": [1, 0, 1]	 
+}
+
+```
+
+And here is a description for all possible properties for furniture:
 
 **type**
 
@@ -50,10 +98,6 @@ The possible categories are listed on https://docs.tinylifegame.com/api/TinyLife
 For when you want to specify which tab the object appears in in the build menu.
 Possible tabs are under the tag <b>Fields</b> on https://docs.tinylifegame.com/api/TinyLife.Tools.FurnitureTool.Tab.html.
 
-**textureFile** *(Not yet used)*
-
-If this object requires a specific texture (like wallpapers or clothing), we need the name of the file.
-
 **atlas**
 
 When adding furniture, we need an atlas file describing the orientation of the texture file of the same name.
@@ -65,7 +109,7 @@ the first being the x, the second being the y, for example: \[1, 1]
 
 **colorSchemes**
 
-The ColorSchemes you want to use for the furniture, can be multiple.
+The ColorSchemes you want to use for the furniture, in an array.
 For options, take a look under the header <b>Fields</b> on https://docs.tinylifegame.com/api/TinyLife.Utilities.ColorScheme.html.
 
 **defaultRotation**
@@ -91,7 +135,7 @@ If you have three layers and two ColorSchemes, this could be \[1, 0, 1], with th
 
 When this value is set, it modifies the need restoration rate of the need for this type of furniture. It should be a decimal value using points, not comma's (i.e., 1.25).
 
-### actionSpots
+#### actionSpots
 In the previous list we saw the property 'actionSpots', which in itself needs some properties (remember the JSON tutorials? You can nest things!).
 
 These properties are as follows, but I have to admit, I'm not much of a texture-guy, so I'm not too sure myself on how these work exactly.
@@ -109,6 +153,76 @@ For options for this, look under the **Fields** section on https://mlem.ellpeck.
 **drawLayer**
 
 Basically, they influence the position the Tiny can interact with the object and it's position relative to the object when using it.
+
+
+### Clothes
+Clothes obviously don't have the same properties as furniture, so for them we have to use a different set!
+Here is an example:
+
+```json
+
+{
+	"name": "PastelPants",
+	"layer": "Pants",
+	"file": "CustomBottomsShoes",
+	"price": 100,
+	"nrOfColumns": 8,
+	"nrOfRows": 6,
+	"firstRow": 0,
+	"firstColumn": 4,
+	"stylePreference": "Feminine",
+	"clothesIntention": ["Party", "Workout"],
+	"colorSchemes": ["Pastel"]
+}
+
+```
+
+Here are the descriptions:
+
+**name**
+
+The name, not a surprise!
+
+**layer**
+
+Which part of the body the clothes are for. You can see the possible values under the header **Fields** here: https://docs.tinylifegame.com/api/TinyLife.Objects.ClothesLayer.html
+
+**file**
+
+The file, without the extension, that contains the textures for this item. This file can contain multiple items.
+
+**price**
+
+Price? Price.
+
+**nrOfColumns**
+
+This says how many columns of textures there are in the given file.
+
+**nrOfRows**
+
+And this one how many rows of textures there are!
+
+**firstColumn**
+
+This one is necessary if there are multiple sets of textures in the given file (i.e., if the file is shared between multiple pieces of clothes), it tells the game which column is the starting point for the textures. The numbering starts at 0, so if there are 4 columns, the first one is 0, the second 1, the third 2 en the fourth 3.
+
+**firstRow**
+
+The same as firstColumn, but then for the rows!
+
+**stylePreference**
+
+The possible values can be seen under the header **Fields** at https://docs.tinylifegame.com/api/TinyLife.Objects.StylePreference.html
+
+**clothesIntention**
+
+The scenarios the clothes are intended for. This requires an array of values. Possible values can be seen under the header **Fields** at https://docs.tinylifegame.com/api/TinyLife.Objects.ClothesIntention.html
+
+**colorSchemes**
+
+The ColorSchemes you want to use for the clothes, in an array.
+For options, take a look under the header <b>Fields</b> on https://docs.tinylifegame.com/api/TinyLife.Utilities.ColorScheme.html.
 
 # Atlas files
 Atlas files are too complicated to fully explain here, but Ellpeck has it documented here: https://mlem.ellpeck.de/api/MLEM.Data.DataTextureAtlas.html
@@ -197,16 +311,13 @@ Frankly, not sure. I have tested chairs and tables, but I haven't tested more ty
 If you have tested a different kind of item and it didn't work, please open an issue here on GitHub!
 
 # Example mods
-There are two right now:
+There is one example mod which adds multiple items:
 
-https://github.com/Sir-Fenrir/tiny-life-simple-expensive-chair
- 
-https://github.com/Sir-Fenrir/tiny-life-simple-custom-table
+https://github.com/Sir-Fenrir/tiny-life-simple-custom-objects
 
 # Future Features
 I have some plans for upcoming features:
 
-- Support for clothes, hair etc.
 - Support for wallpapers and tiles.
 - Icon support to show which mod an item is from.
 - User interface element showing all the loaded mods.
