@@ -1,6 +1,6 @@
 # Simple Object Loader
 
-Made to make the creation of new furniture etc. easier, as long as no complex/new behaviors are required.
+Made to make the creation of new furniture and clothes easier, as long as no complex/new behaviors are required.
 
 ## Setup
 When creating new objects to load using this mod, there are a few steps that are required:
