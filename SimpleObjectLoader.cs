@@ -1,7 +1,9 @@
 using ExtremelySimpleLogger;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using MLEM.Data;
 using MLEM.Data.Content;
+using MLEM.Textures;
 using SimpleObjectLoader.Builder;
 using SimpleObjectLoader.Config;
 using SimpleObjectLoader.Utils;
@@ -24,32 +26,44 @@ public class SimpleObjectLoader : Mod
     public override string Name => "Simple Object Loader";
     public override string Description => "A way to add custom objects without programming";
     public override string IssueTrackerUrl => "https://github.com/Sir-Fenrir/simple-object-loader/issues";
-    public override string TestedVersionRange => "[0.38.2]";
+    public override string TestedVersionRange => "[0.38.3]";
 
-    private List<ObjectConfig> ObjectConfigs;
+    private List<ModConfig> modConfigs;
 
 
     public override void Initialize(Logger logger, RawContentManager content, RuntimeTexturePacker texturePacker, ModInfo info)
     {
         SimpleObjectLoader.Logger = logger;
-        ObjectConfigs = new ObjectConfigLoader().GetMods();
-        LocalizationUtils.ReadLocalizationFiles(ObjectConfigs);
+        modConfigs = new ModConfigLoader().GetMods();
+        LocalizationUtils.ReadLocalizationFiles(modConfigs);
+        TextureUtils.loadTextures(texturePacker, content, modConfigs.SelectMany(m => m.Clothes).ToArray());
+
     }
     public override void AddGameContent(GameImpl game, ModInfo info)
     {
         Logger.Info("Adding game content");
 
-        foreach (var item in ObjectConfigs)
+        foreach (var mod in modConfigs)
         {
-            new FurnitureBuilder(item).Build();
+            foreach(var furniture in mod.Furniture)
+            {
+                new FurnitureBuilder(furniture).Build();
+            }
+
+            foreach(var clothes in mod.Clothes)
+            {
+                new ClothingBuilder(clothes).Build();
+            }
+            
         }
 
     }
 
     public override IEnumerable<string> GetCustomFurnitureTextures(ModInfo info)
     {
-        return ObjectConfigs.
-            Select(config => $"{config.FilePath}\\{config.Atlas}");
+        return modConfigs
+            .SelectMany(config => config.Furniture)
+            .Select(f => f.Atlas);
     }
 
 }

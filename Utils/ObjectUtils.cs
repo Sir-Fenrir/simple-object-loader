@@ -14,7 +14,7 @@ namespace SimpleObjectLoader.Utils
     /// Helper class to index things like existing categories and furniture types,
     /// to make creating new objects easier.
     /// </summary>
-    internal class EnvironmentUtils
+    internal class ObjectUtils
     {
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace SimpleObjectLoader.Utils
 
         private static Logger Logger = SimpleObjectLoader.Logger;
 
-        static EnvironmentUtils()
+        static ObjectUtils()
         {
 
             // To force the loading of the DynamicEnums
@@ -58,7 +58,7 @@ namespace SimpleObjectLoader.Utils
             ColorScheme[] found = [];
             foreach (var scheme in schemes)
             {
-                ColorSchemes.TryGetValue(scheme, out var result);
+                ColorSchemes.TryGetValue(scheme.ToLower(), out var result);
                 if (result != null)
                 {
                     found = found.AddToArray(result);
@@ -83,6 +83,13 @@ namespace SimpleObjectLoader.Utils
             return ObjectCategory.Parse<ObjectCategory>(stringCategories);
         }
 
+        public static ClothesIntention ParseClothingIntentions(string[] intentions)
+        {
+            return intentions
+                .Select(i => Enum.Parse<ClothesIntention>(i, true))
+                .Aggregate((x, y) => x | y);
+        }
+
         /// <summary>
         /// Here we search the loaded assemblies for all possible furniture types.
         /// </summary>
@@ -93,7 +100,7 @@ namespace SimpleObjectLoader.Utils
                 .Where(assembly => !assembly.IsDynamic)
                 .SelectMany(TryExtractTypesFromAssembly)
                 .ToDictionary(
-                    type => type.Name,
+                    type => type.Name.ToLower(),
                     type => type
                 );
         }
@@ -133,7 +140,7 @@ namespace SimpleObjectLoader.Utils
         {
             return typeof(ColorScheme).GetFields()
             .ToDictionary(
-                scheme => scheme.Name,
+                scheme => scheme.Name.ToLower(),
                 scheme => (ColorScheme)scheme.GetValue(null)
             );
         }
@@ -147,7 +154,7 @@ namespace SimpleObjectLoader.Utils
         {
             return typeof(Direction2Helper).GetFields()
             .ToDictionary(
-                scheme => scheme.Name,
+                scheme => scheme.Name.ToLower(),
                 scheme => (Direction2[])scheme.GetValue(null)
             );
         }

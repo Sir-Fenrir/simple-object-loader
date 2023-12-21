@@ -22,7 +22,7 @@ namespace SimpleObjectLoader.Utils
         /// Find all localization files for the mods in use and write them to the directory of this mod.
         /// </summary>
         /// <param name="configs">All loaded mods</param>
-        public static void ReadLocalizationFiles(List<ObjectConfig> configs)
+        public static void ReadLocalizationFiles(List<ModConfig> configs)
         {
             var result = FindModLocalizationFiles(configs);
 
@@ -44,7 +44,7 @@ namespace SimpleObjectLoader.Utils
         /// <summary>
         /// Find all localization files for the mods.
         /// </summary>
-        private static Dictionary<string, List<FileInfo>> FindModLocalizationFiles(List<ObjectConfig> configs)
+        private static Dictionary<string, List<FileInfo>> FindModLocalizationFiles(List<ModConfig> configs)
         {
             return configs.Select(config => $"{config.FilePath}\\Localization")
                 .Where(Directory.Exists)

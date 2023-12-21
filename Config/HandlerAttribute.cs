@@ -3,7 +3,7 @@
 namespace SimpleObjectLoader.Config
 {
     /// <summary>
-    /// Attribute to mark a method as capable of handling a property in <see cref="ObjectConfig"/>.
+    /// Attribute to mark a method as capable of handling a property in <see cref="FurnitureConfig"/>.
     /// </summary>
     ///
     /// <param name="property">The property to handle</param>
