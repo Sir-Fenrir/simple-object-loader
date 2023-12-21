@@ -12,7 +12,7 @@ namespace SimpleObjectLoader.Builder
     /// </summary>
     /// <param name="config">The object to create.</param>
     /// <param name="SubClassType">The subclass to find the relevant handler methods in.</param>
-    internal abstract class AbstractBuilder(ObjectConfig config, Type SubClassType)
+    internal abstract class AbstractBuilder(IConfig config, Type SubClassType)
     {
         /// <summary>
         /// The type of the subclass 'currently' using this abstract class,
@@ -25,7 +25,7 @@ namespace SimpleObjectLoader.Builder
         /// </summary>
         protected static readonly Dictionary<Type, Dictionary<string, List<MethodInfo>>> methods = [];
 
-        protected readonly ObjectConfig _config = config;
+        private readonly IConfig _config = config;
 
         /// <summary>
         /// Read the methodhandlers from the cache, or find them if the cache is empty.
@@ -55,19 +55,19 @@ namespace SimpleObjectLoader.Builder
         private static void PopulateMethodDictionary(Dictionary<string, List<MethodInfo>> methods, MethodInfo method)
         {
             var property = method.GetCustomAttribute<HandlerForAttribute>().Property;
-            if (methods.TryGetValue(property, out List<MethodInfo> value))
+            if (methods.TryGetValue(property.ToLower(), out List<MethodInfo> value))
             {
                 value.Add(method);
             }
             else
             {
-                methods[property] = [method];
+                methods[property.ToLower()] = [method];
             }
         }
 
         /// <summary>
         /// Build the object.
-        /// It will dynamically find the relevant methods according to the used properties in <see cref="ObjectConfig"/>.
+        /// It will dynamically find the relevant methods according to the used properties in <see cref="FurnitureConfig"/>.
         /// </summary>
         public void Build()
         {
@@ -84,12 +84,12 @@ namespace SimpleObjectLoader.Builder
         private void InvokeHandlerMethods()
         {
             var methods = GetHandlerMethodsFor(SubClassType);
-            typeof(ObjectConfig)
+            _config.GetType()
                 .GetProperties()
                 .Where(field => field.GetValue(_config) != null)
-                .Select(field => field.Name)
+                .Select(field => field.Name.ToLower())
                 .Where(methods.ContainsKey)
-                .SelectMany(field => methods[field])
+                .SelectMany(field => methods[field.ToLower()])
                 .Do(method => method.Invoke(this, null));
         }
 

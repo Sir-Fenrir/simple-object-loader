@@ -1,19 +1,22 @@
 ﻿using SimpleObjectLoader.Utils;
 using System.Collections.Generic;
 using MLEM.Misc;
+using System;
+
+/// TODO: Split up and move ModId to a encompassing all types
 
 namespace SimpleObjectLoader.Config
 {
     /// <summary>
     /// Configuration for the mod to load.
     /// </summary>
-    public class ObjectConfig
+    public class FurnitureConfig : IConfig
     {
 
-        public string FilePath {  get; set; }
         /// <summary>
         /// Unique name for the mod. You can have multiple items with the same identifier, but the name needs to be unique within this mod.
         /// </summary>
+        [Obsolete("In the future, this will be read from  ModConfig.")]
         public string ModId { get; set; }
 
         /// <summary>
@@ -47,7 +50,7 @@ namespace SimpleObjectLoader.Config
         /// <summary>
         /// If this object requires a specific texture (like wallpapers or clothing), we need the name of the file.
         /// </summary>
-        public string TextureFile { get; set; }
+        public TextureConfig Texture { get; set; }
 
         /// <summary>
         /// When adding furniture, we need an atlas file describing the orientation of the texture file of the same name.
@@ -93,6 +96,6 @@ namespace SimpleObjectLoader.Config
         /// <summary>
         /// When this value is set, it modifies the need restoration rate of the need for this type of furniture.
         /// </summary>
-        public float NeedModifier { get; set; }
+        public float? NeedModifier { get; set; }
     }
 }

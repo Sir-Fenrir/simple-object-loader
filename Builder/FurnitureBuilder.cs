@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using ExtremelySimpleLogger;
+using Microsoft.Xna.Framework;
 using MLEM.Misc;
 using SimpleObjectLoader.Config;
 using SimpleObjectLoader.Utils;
@@ -12,20 +13,22 @@ namespace SimpleObjectLoader.Builder
     /// <summary>
     /// Dynamically builds a piece of furniture based on the properties filled in the JSON file.
     /// </summary>
-    internal class FurnitureBuilder(ObjectConfig config) : AbstractBuilder(config, typeof(FurnitureBuilder))
+    internal class FurnitureBuilder(FurnitureConfig config) : AbstractBuilder(config, typeof(FurnitureBuilder))
     {
 
         private FurnitureType.TypeSettings _typeSettings;
+
+        private readonly FurnitureConfig _config = config;
 
         /// <summary>
         /// Initialize the basics of a Furniture object.
         /// </summary>
         protected override void Initialize()
         {
-            var combinedCategories = EnvironmentUtils.ParseCategories(config.Categories);
+            var combinedCategories = ObjectUtils.ParseCategories(config.Categories);
 
-            var selectedColorSchemes = EnvironmentUtils.ParseColorSchemes(config.ColorSchemes);
-            _typeSettings = new FurnitureType.TypeSettings($"SimpleObjectLoader.{config.ModId}.{config.Name}",
+            var selectedColorSchemes = ObjectUtils.ParseColorSchemes(config.ColorSchemes);
+            _typeSettings = new FurnitureType.TypeSettings($"SimpleObjectLoader.{config.Name}",
             new Point(_config.Size[0], _config.Size[1]),
                 combinedCategories,
                 _config.Price,
@@ -36,7 +39,7 @@ namespace SimpleObjectLoader.Builder
         public void Type()
         {
             // Set special ConstructedType, if any
-            if (EnvironmentUtils.Types.TryGetValue(_config.Type, out var type))
+            if (ObjectUtils.Types.TryGetValue(_config.Type.ToLower(), out var type))
             {
                 _typeSettings.ConstructedType = type;
             }
@@ -51,7 +54,7 @@ namespace SimpleObjectLoader.Builder
         }
 
         /// <summary>
-        /// Executed if the <see cref="ObjectConfig.ActionSpots"/> property is not null.
+        /// Executed if the <see cref="FurnitureConfig.ActionSpots"/> property is not null.
         /// </summary>
         [HandlerFor("ActionSpots")]
         public void ActionSpots()
@@ -61,7 +64,7 @@ namespace SimpleObjectLoader.Builder
                     new ActionSpot(
                         new Vector2(spot.VectorX, spot.VectorY),
                         spot.YOffset,
-                        EnvironmentUtils.Directions[spot.Direction])
+                        ObjectUtils.Directions[spot.Direction.ToLower()])
                     {
                         DrawLayer = f => spot.DrawLayer
                     })
@@ -69,7 +72,7 @@ namespace SimpleObjectLoader.Builder
         }
 
         /// <summary>
-        /// Executed if the <see cref="ObjectConfig.ColorMap"/> property is not null.
+        /// Executed if the <see cref="FurnitureConfig.ColorMap"/> property is not null.
         /// </summary>
         [HandlerFor("ColorMap")]
         public void ColorMap()
@@ -78,7 +81,7 @@ namespace SimpleObjectLoader.Builder
         }
 
         /// <summary>
-        /// Executed if the <see cref="ObjectConfig.TableSpots"/> property is not null.
+        /// Executed if the <see cref="FurnitureConfig.TableSpots"/> property is not null.
         /// </summary>
         [HandlerFor("TableSpots")]
         public void TableSpots()
@@ -94,7 +97,7 @@ namespace SimpleObjectLoader.Builder
         }
 
         /// <summary>
-        /// Executed if the <see cref="ObjectConfig.DefaultRotation"/> property is not null.
+        /// Executed if the <see cref="FurnitureConfig.DefaultRotation"/> property is not null.
         /// </summary>
         [HandlerFor("DefaultRotation")]
         public void DefaultRotation()
@@ -103,7 +106,7 @@ namespace SimpleObjectLoader.Builder
         }
 
         /// <summary>
-        /// Executed if the <see cref="ObjectConfig.Tab"/> property is not null.
+        /// Executed if the <see cref="FurnitureConfig.Tab"/> property is not null.
         /// </summary>
         [HandlerFor("Tab")]
         public void Tab()
@@ -114,7 +117,7 @@ namespace SimpleObjectLoader.Builder
         [HandlerFor("NeedModifier")]
         public void NeedModifier()
         {
-            _typeSettings.RestoreNeedModifier = _config.NeedModifier;
+            _typeSettings.RestoreNeedModifier = (float)_config.NeedModifier;
         }
     }
 }
