@@ -15,5 +15,7 @@ namespace SimpleObjectLoader.Config
         public FurnitureConfig[] Furniture { get; set; } = [];
 
         public TextureConfig[] Clothes { get; set; } = [];
+
+        public TextureConfig[] Wallpapers { get; set; } = [];
     }
 }

@@ -5,8 +5,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="DynamicEnums" Version="1.0.1" />
-        <PackageReference Include="TinyLifeApi" Version="0.38.3" />
+        <PackageReference Include="DynamicEnums" Version="1.1.0" />
+        <PackageReference Include="TinyLifeApi" Version="0.38.4" />
 
         <PackageReference Include="ExtremelySimpleLogger" Version="1.4.1" />
         <PackageReference Include="Lib.Harmony" Version="2.2.2" />
