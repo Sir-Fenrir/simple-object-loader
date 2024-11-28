@@ -102,6 +102,12 @@ namespace SimpleObjectLoader.Config
                 f.Name = $"{mod.ModId}.{f.Name}";
             });
 
+            mod.Tiles.Do(f =>
+            {
+                f.File = $"{mod.FilePath}\\{f.File}";
+                f.Name = $"{mod.ModId}.{f.Name}";
+            });
+
             return mod;
         }
 

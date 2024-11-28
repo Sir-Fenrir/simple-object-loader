@@ -32,6 +32,7 @@ public class SimpleObjectLoader : Mod
         modConfigs = new ModConfigLoader().GetMods();
         LocalizationUtils.ReadLocalizationFiles(modConfigs);
         TextureUtils.LoadTextures(texturePacker, content, modConfigs.SelectMany(m => m.Clothes).ToArray());
+        TextureUtils.LoadTextures(texturePacker, content, modConfigs.SelectMany(m => m.Tiles).ToArray());
         TextureUtils.LoadWallPaperTextures(texturePacker, content, modConfigs.SelectMany(m => m.Wallpapers).ToArray());
     }
     public override void AddGameContent(GameImpl game, ModInfo info)
@@ -53,6 +54,11 @@ public class SimpleObjectLoader : Mod
             foreach (var wallpaper in mod.Wallpapers)
             {
                 new WallpaperBuilder(wallpaper).Build();
+            }
+
+            foreach (var tile in mod.Tiles)
+            {
+                new TileBuilder(tile).Build();
             }
 
 
