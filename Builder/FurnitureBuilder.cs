@@ -1,5 +1,6 @@
 ﻿using ExtremelySimpleLogger;
 using Microsoft.Xna.Framework;
+using MLEM.Maths;
 using MLEM.Misc;
 using SimpleObjectLoader.Config;
 using SimpleObjectLoader.Utils;
@@ -7,6 +8,7 @@ using System;
 using System.Linq;
 using TinyLife.Objects;
 using TinyLife.Tools;
+using TinyLife.Utilities;
 
 namespace SimpleObjectLoader.Builder
 {
@@ -77,7 +79,11 @@ namespace SimpleObjectLoader.Builder
         [HandlerFor("ColorMap")]
         public void ColorMap()
         {
-            _typeSettings.ColorMap = config.ColorMap;
+            var colorSettings = new ColorSettings(ObjectUtils.ParseColorSchemes(_config.ColorSchemes))
+            {
+                Map = _config.ColorMap
+            };
+            _typeSettings.Colors = colorSettings;
         }
 
         /// <summary>
