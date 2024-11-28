@@ -1,6 +1,7 @@
 # Simple Object Loader
 
-Made to make the creation of new furniture and clothes easier, as long as no complex/new behaviors are required.
+Made to make the creation of new furniture, clothes, wallpapers and tiles easier, as long as no complex/new behaviors are required.
+For a complete example, take a look at: https://github.com/Sir-Fenrir/tiny-life-simple-custom-objects
 
 ## Setup
 When creating new objects to load using this mod, there are a few steps that are required:
@@ -318,6 +319,5 @@ https://github.com/Sir-Fenrir/tiny-life-simple-custom-objects
 # Future Features
 I have some plans for upcoming features:
 
-- Support for wallpapers and tiles.
 - Icon support to show which mod an item is from.
 - User interface element showing all the loaded mods.
