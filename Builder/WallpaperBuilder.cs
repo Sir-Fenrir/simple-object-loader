@@ -1,22 +1,29 @@
 ﻿using SimpleObjectLoader.Config;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using SimpleObjectLoader.Utils;
+using Microsoft.Xna.Framework;
+using TinyLife.World;
 
 namespace SimpleObjectLoader.Builder
 {
     internal class WallpaperBuilder(TextureConfig config) : AbstractBuilder(config, typeof(WallpaperBuilder))
     {
+
+        private readonly TextureConfig _config = config;
+
         protected override void Initialize()
         {
-            throw new NotImplementedException();
+             // Not needed for wallpapers
         }
 
         protected override void Register()
         {
-            throw new NotImplementedException();
+            Wallpaper.Register(
+                $"SimpleObjectLoader.{_config.Name}",
+                _config.Price,
+                _config.TextureRegions,
+                new Point(_config.FirstColumn, _config.FirstRow),
+                ObjectUtils.ParseColorSchemes(_config.ColorSchemes)
+                );
         }
     }
 }

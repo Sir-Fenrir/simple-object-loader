@@ -1,5 +1,6 @@
 ﻿using ExtremelySimpleLogger;
 using HarmonyLib;
+using MLEM.Maths;
 using MLEM.Misc;
 using System;
 using System.Collections.Generic;

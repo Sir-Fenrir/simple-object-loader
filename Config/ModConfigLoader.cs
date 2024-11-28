@@ -96,6 +96,12 @@ namespace SimpleObjectLoader.Config
                 f.Name = $"{mod.ModId}.{f.Name}";
             });
 
+            mod.Wallpapers.Do(f =>
+            {
+                f.File = $"{mod.FilePath}\\{f.File}";
+                f.Name = $"{mod.ModId}.{f.Name}";
+            });
+
             return mod;
         }
 
