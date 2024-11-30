@@ -115,7 +115,7 @@ For options, take a look under the header <b>Fields</b> on https://docs.tinylife
 
 **defaultRotation**
 
-In case you want to set a default rotation for the object, for options see https://mlem.ellpeck.de/api/MLEM.Misc.Direction2.html.
+In case you want to set a default rotation for the object, for options see [MLEM.Misc.Direction2](https://mlem.ellpeck.de/api/MLEM.Maths.Direction2.html).
 
 **tableSpots**
 
@@ -149,7 +149,7 @@ These properties are as follows, but I have to admit, I'm not much of a texture-
 
 **direction**
 
-For options for this, look under the **Fields** section on https://mlem.ellpeck.de/api/MLEM.Misc.Direction2Helper.html.
+For options for this, look under the **Fields** section on [MLEM.Misc.Direction2Helper](https://mlem.ellpeck.de/api/MLEM.Maths.Direction2Helper.html).
 
 **drawLayer**
 
