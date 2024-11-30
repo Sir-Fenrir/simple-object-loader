@@ -26,7 +26,7 @@ public class SimpleObjectLoader : Mod
     public override string Name => "Simple Object Loader";
     public override string Description => "A way to add custom objects without programming";
     public override string IssueTrackerUrl => "https://github.com/Sir-Fenrir/simple-object-loader/issues";
-    public override string TestedVersionRange => "[0.38.3]";
+    public override string TestedVersionRange => "[0.45.0]";
 
     private List<ModConfig> modConfigs;
 

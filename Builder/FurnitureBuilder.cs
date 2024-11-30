@@ -119,5 +119,10 @@ namespace SimpleObjectLoader.Builder
         {
             _typeSettings.RestoreNeedModifier = (float)_config.NeedModifier;
         }
+
+        // DecorativeRating
+        // WaterRating
+        // ElectricityRating
+        // EfficiencyModifier
     }
 }

@@ -4,9 +4,8 @@
         <TargetFramework>net8.0</TargetFramework>
     </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="DynamicEnums" Version="1.0.1" />
-        <PackageReference Include="TinyLifeApi" Version="0.38.3" />
+	<ItemGroup>
+		<PackageReference Include="TinyLife.ApiReference" Version="0.45.0" />
 
         <PackageReference Include="ExtremelySimpleLogger" Version="1.4.1" />
         <PackageReference Include="Lib.Harmony" Version="2.2.2" />
