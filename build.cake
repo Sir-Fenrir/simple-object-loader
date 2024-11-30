@@ -31,8 +31,12 @@ Task("Run").IsDependentOn("CopyToMods").Does(() => {
     var exeDir = System.IO.File.ReadAllText($"{tinyLifeDir}/GameDir");
     var process = Process.Start(new ProcessStartInfo($"{exeDir}/Tiny Life") {
         Arguments = $"-v --skip-splash --skip-preloads --debug-saves --ansi {args}",
-        CreateNoWindow = true
+        RedirectStandardOutput = true,
+        RedirectStandardError = true
     });
+    // make sure the output buffers (which we ignore) don't fill up
+    process.BeginOutputReadLine();
+    process.BeginErrorReadLine();
 
     // we wait a bit to make sure the process has generated a new log file
     Thread.Sleep(1000);
@@ -45,12 +49,12 @@ Task("Run").IsDependentOn("CopyToMods").Does(() => {
             using (var reader = new StreamReader(stream)) {
                 var lastPos = 0L;
                 do {
-                    if (reader.BaseStream.Length > lastPos) {
-                        reader.BaseStream.Seek(lastPos, SeekOrigin.Begin);
+                    if (stream.Length > lastPos) {
+                        stream.Seek(lastPos, SeekOrigin.Begin);
                         string line;
                         while ((line = reader.ReadLine()) != null)
                             Information(line);
-                        lastPos = reader.BaseStream.Position;
+                        lastPos = stream.Position;
                     }
                     Thread.Sleep(10);
                 } while (!process.HasExited);
