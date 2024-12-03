@@ -75,16 +75,6 @@ namespace SimpleObjectLoader.Config
         public string DefaultRotation { get; set; }
 
         /// <summary>
-        /// If you're creating a table, you need some spots to sit. Generally this can be the same as <see cref="Size"/>.
-        /// </summary>
-        public int[] TableSpots { get; set; }
-
-        /// <summary>
-        /// All the places a Tiny can interact with/from with the furniture.
-        /// </summary>
-        public ActionSpotConfig[] ActionSpots { get; set; }
-
-        /// <summary>
         /// Set the colors for the different layers, if applicable.
         /// It is an array, with as many elements as there are layers in your textures. 
         /// The numbers in it correspond to the given <see cref="ColorSchemes"/>. 
@@ -97,5 +87,32 @@ namespace SimpleObjectLoader.Config
         /// When this value is set, it modifies the need restoration rate of the need for this type of furniture.
         /// </summary>
         public float? NeedModifier { get; set; }
+        
+        public float? WaterRating { get; set; }
+        
+        public float? DecorativeRating { get; set; }
+        
+        public float? ElectricityRating { get; set; }
+        
+        public float? EfficiencyModifier { get; set; }
+        
+        /// <summary>
+        /// All the places a Tiny can interact with/from with the furniture.
+        /// </summary>
+        public ActionSpotConfig[] ActionSpots { get; set; }
+    
+        public TableSpotsConfig TableSpots { get; set; }
+
+        public PicnicTableSpotsConfig PicnicTableSpots { get; set; }
+
+        public SingleShelfSpotsConfig SingleShelfSpots { get; set; }
+
+        public DeskSpotsConfig DeskSpots { get; set; }
+
+        public CounterSpotsConfig CounterSpots { get; set; }
+
+        public GenericSpotConfig BarSpots { get; set; }
+
+        public GenericSpotConfig TreeSpots { get; set; }
     }
 }
