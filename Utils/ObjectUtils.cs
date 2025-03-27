@@ -80,7 +80,7 @@ namespace SimpleObjectLoader.Utils
         /// <returns>One category, made out of the string categories</returns>
         public static ObjectCategory ParseCategories(string[] categories)
         {
-            var stringCategories = categories.Aggregate((x, y) => $"{x}|{y}");
+            var stringCategories = categories.Aggregate((x, y) => $"{x},{y}");
             return ObjectCategory.Parse<ObjectCategory>(stringCategories);
         }
 

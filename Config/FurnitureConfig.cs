@@ -10,27 +10,13 @@ namespace SimpleObjectLoader.Config
     /// <summary>
     /// Configuration for the mod to load.
     /// </summary>
-    public class FurnitureConfig : IConfig
+    public class FurnitureConfig : Named, IConfig
     {
-
-        /// <summary>
-        /// Unique name for the mod. You can have multiple items with the same identifier, but the name needs to be unique within this mod.
-        /// </summary>
-        [Obsolete("In the future, this will be read from  ModConfig.")]
-        public string ModId { get; set; }
 
         /// <summary>
         /// This is for specific types of furniture, the possible types are listed under the <b>Derived</b> section on <see href="https://docs.tinylifegame.com/api/TinyLife.Objects.Furniture.html"/>.
         /// </summary>
         public string Type { get; set; }
-
-        /// <summary>
-        /// The name of the item when registering it.
-        /// NOTE: This is not the name used in the game,
-        /// for that we need the localization files.
-        /// This name is used to find the relevant entries in the localization files and the atlas file.
-        /// </summary>
-        public string Name { get; set; }
 
         public int Price { get; set; }
 

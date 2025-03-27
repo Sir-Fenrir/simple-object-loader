@@ -10,6 +10,10 @@ namespace SimpleObjectLoader.Config
     {
         public string ModId { get; set; }
 
+        public string ModName { get; set; }
+
+        public string Author { get; set; }
+
         public string FilePath { get; set; }
 
         public FurnitureConfig[] Furniture { get; set; } = [];

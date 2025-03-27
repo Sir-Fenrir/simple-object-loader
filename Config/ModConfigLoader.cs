@@ -33,6 +33,7 @@ namespace SimpleObjectLoader.Config
             var modConfigs = Directory.EnumerateFiles(ModLoader.GetModsFolder().FullName, "*", SearchOption.AllDirectories)
                 .Where(file => CONFIG_EXTENSIONS.Any(file.ToLower().EndsWith))
                 .Select(MapFileToObject)
+                .Where(config => config != null)
                 .ToList();
 
             Logger.Info($"{modConfigs.Count} mods discovered");
@@ -41,10 +42,8 @@ namespace SimpleObjectLoader.Config
         }
 
         /// <summary>
-        /// Parse a file into a list of <see cref="FurnitureConfig"/>s,
-        /// regardless whether there is only one item or more in the file.
+        /// Parse a file into a list of Configs.
         /// 
-        /// When the old config is fully removed, this method will get a proper refactor.
         /// </summary>
         /// <param name="file">The file to read</param>
         /// <returns>All succesfully loaded configurations</returns>
@@ -60,32 +59,14 @@ namespace SimpleObjectLoader.Config
             catch (Exception ex)
             {
                 Logger.Warn($"Failed to load the {file}:", ex);
-                Logger.Info($"Trying the legacy configuration");
-
-                try
-                {
-
-                    if (json.StartsWith("[")) // This means there are multiple configs in this file
-                    {
-                        mod.Furniture = JsonConvert.DeserializeObject<FurnitureConfig[]>(json);
-                    }
-                    else
-                    {
-                        mod.Furniture = [JsonConvert.DeserializeObject<FurnitureConfig>(json)];
-                    }
-
-                    mod.ModId = mod.Furniture[0].ModId;
-
-                }
-                catch (Exception e)
-                {
-                    Logger.Warn($"Failed to load the {file} for the legacy config:", e);
-                }
+                SimpleObjectLoader.Errors.Add($"Failed to read the file {file}");
+                return null;
             }
 
             mod.FilePath = Path.GetDirectoryName(file);
 
-            mod.Furniture.Do(f => {
+            mod.Furniture.Do(f =>
+            {
                 f.Atlas = $"{mod.FilePath}\\{f.Atlas}";
                 f.Name = $"{mod.ModId}.{f.Name}";
             });
