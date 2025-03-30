@@ -9,7 +9,7 @@ jobs:
       runs-on: windows-latest
       steps:
         - name: Debug
-          run: ls -a
+          run: ls
           
         - name: Cake Action
         # You may pin to the exact commit or the version.
