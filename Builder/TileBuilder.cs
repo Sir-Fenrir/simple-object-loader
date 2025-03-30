@@ -1,6 +1,6 @@
-﻿using SimpleObjectLoader.Config;
+﻿using Microsoft.Xna.Framework;
+using SimpleObjectLoader.Config;
 using SimpleObjectLoader.Utils;
-using Microsoft.Xna.Framework;
 using TinyLife.World;
 
 namespace SimpleObjectLoader.Builder

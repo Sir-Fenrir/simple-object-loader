@@ -1,7 +1,5 @@
-﻿using ExtremelySimpleLogger;
-using HarmonyLib;
+﻿using HarmonyLib;
 using MLEM.Maths;
-using MLEM.Misc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,8 +27,6 @@ namespace SimpleObjectLoader.Utils
         /// A dictionary of all possible predefined directions.
         /// </summary>
         static public readonly Dictionary<string, Direction2[]> Directions;
-
-        private static Logger Logger = SimpleObjectLoader.Logger;
 
         static ObjectUtils()
         {
@@ -66,7 +62,7 @@ namespace SimpleObjectLoader.Utils
                 }
                 else
                 {
-                    Logger.Warn($"Unknown color scheme requested: {scheme}");
+                    SOL.Logger.Warn($"Unknown color scheme requested: {scheme}");
                 }
             }
             return found;

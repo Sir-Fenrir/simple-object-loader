@@ -1,8 +1,5 @@
-﻿using Microsoft.Xna.Framework;
-using MLEM.Textures;
-using System;
+﻿using MLEM.Textures;
 using System.Collections.Generic;
-using System.Drawing;
 using Point = Microsoft.Xna.Framework.Point;
 
 namespace SimpleObjectLoader.Config

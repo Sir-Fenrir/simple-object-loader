@@ -1,6 +1,6 @@
-﻿using SimpleObjectLoader.Config;
+﻿using Microsoft.Xna.Framework;
+using SimpleObjectLoader.Config;
 using SimpleObjectLoader.Utils;
-using Microsoft.Xna.Framework;
 using TinyLife.World;
 
 namespace SimpleObjectLoader.Builder
@@ -12,7 +12,7 @@ namespace SimpleObjectLoader.Builder
 
         protected override void Initialize()
         {
-             // Not needed for wallpapers
+            // Not needed for wallpapers
         }
 
         protected override void Register()

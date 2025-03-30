@@ -1,8 +1,9 @@
 using ExtremelySimpleLogger;
+using Microsoft.Xna.Framework;
 using MLEM.Data;
 using MLEM.Data.Content;
-using MLEM.Ui.Elements;
 using MLEM.Ui;
+using MLEM.Ui.Elements;
 using SimpleObjectLoader.Builder;
 using SimpleObjectLoader.Config;
 using SimpleObjectLoader.Utils;
@@ -10,21 +11,13 @@ using System.Collections.Generic;
 using System.Linq;
 using TinyLife;
 using TinyLife.Mods;
-using MLEM.Formatting;
-using MLEM.Font;
-using MLEM.Extended.Font;
-using TinyLife.Objects;
-using System;
-using Microsoft.Xna.Framework;
-using TinyLife.Uis;
+
+using static SimpleObjectLoader.Utils.LoaderUtils;
 
 namespace SimpleObjectLoader;
 
 public class SimpleObjectLoader : Mod
 {
-
-    // the logger that we can use to log info about this mod
-    public static Logger Logger { get; private set; }
 
     // visual data about this mod
     public override string Name => "Simple Object Loader";
@@ -35,53 +28,50 @@ public class SimpleObjectLoader : Mod
     public override string IssueTrackerUrl => "https://github.com/Sir-Fenrir/simple-object-loader/issues";
     public override string TestedVersionRange => "[0.47.2]";
 
-    public static readonly List<string> Errors = [];
-
     private List<ModConfig> modConfigs;
 
 
     public override void Initialize(Logger logger, RawContentManager content, RuntimeTexturePacker texturePacker, ModInfo info)
     {
-        SimpleObjectLoader.Logger = logger;
+        // Initialize the shared values
+        SOL.Init(logger, content, texturePacker);
+
+        // Find all compatible mods
         modConfigs = new ModConfigLoader().GetMods();
+
+        // Read the localization files from the loaded mods and merge them with this mod, so they can be used by the game.
         LocalizationUtils.ReadLocalizationFiles(modConfigs);
-        TextureUtils.LoadGenericTextures(texturePacker, content, modConfigs.SelectMany(m => m.Clothes).ToArray());
-        TextureUtils.LoadGenericTextures(texturePacker, content, modConfigs.SelectMany(m => m.Tiles).ToArray());
-        TextureUtils.LoadWallPaperTextures(texturePacker, content, modConfigs.SelectMany(m => m.Wallpapers).ToArray());
+
+        // Load all textures for clothes, tiles and wallpapers.
+        // Textures for furniture work differently.
+        // They're loaded using GetCustomFurnitureTextures.
+        TextureUtils.LoadGenericTextures(modConfigs.SelectMany(m => m.Clothes).ToArray());
+        TextureUtils.LoadGenericTextures(modConfigs.SelectMany(m => m.Tiles).ToArray());
+        TextureUtils.LoadWallPaperTextures(modConfigs.SelectMany(m => m.Wallpapers).ToArray());
     }
 
-    /// <summary>
-    /// Helper method to load items.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="modItems">The array of items to load</param>
-    /// <param name="builder">A lambda to produce the correct builder</param>
-    /// <param name="modName">The name of the mod we're currently loading, for logging purposes</param>
-    private void LoadItems<T>(T[] modItems, Action<T> builder, string modName) where T : Named
-    {
-        foreach (T modItem in modItems)
-        {
-            try
-            {
-                builder(modItem);
-            } catch (Exception ex) {
-                if(ex.InnerException != null) ex = ex.InnerException;
-                Errors.Add($"Failed to load {modItem.Name} from <i>{modName}</i> with message <c Red>{ex.Message}</c>");
-                Logger.Error(ex);
-            }
-        }
-            
-    }
     public override void AddGameContent(GameImpl game, ModInfo info)
     {
-        Logger.Info("Adding game content");
+        SOL.Logger.Info("Adding game content");
 
         foreach (var mod in modConfigs)
         {
-            LoadItems<FurnitureConfig>(mod.Furniture, (furniture) => new FurnitureBuilder(furniture).Build(), mod.ModName);
-            LoadItems<TextureConfig>(mod.Clothes, (clothes) => new ClothingBuilder(clothes).Build(), mod.ModName);
-            LoadItems<TextureConfig>(mod.Wallpapers, (wallpaper) => new WallpaperBuilder(wallpaper).Build(), mod.ModName);
-            LoadItems<TextureConfig>(mod.Tiles, (tiles) => new TileBuilder(tiles).Build(), mod.ModName);
+            LoadItems<FurnitureConfig>(
+                mod.Furniture,
+                (furniture) => new FurnitureBuilder(furniture).Build(),
+                mod.ModName);
+            LoadItems<TextureConfig>(
+                mod.Clothes,
+                (clothes) => new ClothingBuilder(clothes).Build(),
+                mod.ModName);
+            LoadItems<TextureConfig>(
+                mod.Wallpapers,
+                (wallpaper) => new WallpaperBuilder(wallpaper).Build(),
+                mod.ModName);
+            LoadItems<TextureConfig>(
+                mod.Tiles,
+                (tiles) => new TileBuilder(tiles).Build(),
+                mod.ModName);
         }
 
     }
@@ -95,43 +85,12 @@ public class SimpleObjectLoader : Mod
 
     public override void PopulateOptions(Group group, ModInfo info)
     {
-
         group.AddChild(new Button(Anchor.AutoCenter, new Vector2(0.5F, 20), "Show loaded mods")
         {
-            OnPressed = element => GameImpl.Instance.UiSystem.Add("Loaded mods", ModInfoBox()),
+            OnPressed = element => GameImpl.Instance.UiSystem.Add("Loaded mods", UiUtils.ModInfoBox(modConfigs)),
             PositionOffset = new Vector2(0, 1)
         });
 
     }
-
-    /// <summary>
-    /// Helper method for building the loaded mod list.
-    /// </summary>
-    /// <returns>An Element containing all the info about the loaded mods.</returns>
-    private Element ModInfoBox()
-    {
-        var cGroup = new CoveringGroup();
-        var infoBox = new Panel(Anchor.Center, new Vector2(200, 1), Vector2.Zero, setHeightBasedOnChildren: true);
-        cGroup.AddChild(infoBox);
-
-        infoBox.AddChild(new Paragraph(Anchor.AutoCenter, 1, "<b>Loaded mods:</b>"));
-        foreach (var mod in modConfigs)
-        {
-            infoBox.AddChild(new Paragraph(Anchor.AutoLeft, 1, $"<i>{mod.ModName}</i> by {mod.Author}"));
-        }
-
-        if (Errors.Count > 0)
-        {
-            infoBox.AddChild(new Paragraph(Anchor.AutoCenter, 1, "<c Red>Errors:</c>"));
-
-            foreach (var error in Errors)
-            {
-                infoBox.AddChild(new Paragraph(Anchor.AutoCenter, 1, error));
-            }
-        }
-
-        return cGroup;
-    }
-
 
 }

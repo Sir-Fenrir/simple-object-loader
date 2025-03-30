@@ -1,13 +1,11 @@
-﻿using ExtremelySimpleLogger;
+﻿using HarmonyLib;
 using Microsoft.Xna.Framework;
 using MLEM.Maths;
-using MLEM.Misc;
 using SimpleObjectLoader.Config;
 using SimpleObjectLoader.Utils;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using HarmonyLib;
 using TinyLife.Objects;
 using TinyLife.Tools;
 using TinyLife.Utilities;
@@ -41,12 +39,12 @@ namespace SimpleObjectLoader.Builder
         [HandlerFor("Type")]
         public void Type()
         {
-            ObjectUtils.Types.Do(_type => SimpleObjectLoader.Logger.Info(_type.Key));
+            ObjectUtils.Types.Do(_type => SOL.Logger.Info(_type.Key));
 
             // Set special ConstructedType, if any
             if (ObjectUtils.Types.TryGetValue(_config.Type.ToLower(), out var type))
             {
-                SimpleObjectLoader.Logger.Info(type.Name);
+                SOL.Logger.Info(type.Name);
                 _typeSettings.ConstructedType = type;
             }
         }

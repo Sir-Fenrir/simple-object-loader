@@ -1,9 +1,4 @@
-﻿using SimpleObjectLoader.Utils;
-using System.Collections.Generic;
-using MLEM.Misc;
-using System;
-
-/// TODO: Split up and move ModId to a encompassing all types
+﻿/// TODO: Split up and move ModId to a encompassing all types
 
 namespace SimpleObjectLoader.Config
 {
@@ -31,7 +26,7 @@ namespace SimpleObjectLoader.Config
         /// For when you want to specify which tab the object appears in in the build menu.
         /// Possible tabs are under the tag <b>Fields</b> on <see href="https://docs.tinylifegame.com/api/TinyLife.Tools.FurnitureTool.Tab.html"/>
         /// </summary>
-        public string Tab {  get; set; }
+        public string Tab { get; set; }
 
         /// <summary>
         /// If this object requires a specific texture (like wallpapers or clothing), we need the name of the file.
@@ -73,20 +68,32 @@ namespace SimpleObjectLoader.Config
         /// When this value is set, it modifies the need restoration rate of the need for this type of furniture.
         /// </summary>
         public float? NeedModifier { get; set; }
-        
+
+        /// <summary>
+        /// Defines the water usage. 
+        /// </summary>
         public float? WaterRating { get; set; }
-        
+
+        /// <summary>
+        /// How pretty is it?
+        /// </summary>
         public float? DecorativeRating { get; set; }
-        
+
+        /// <summary>
+        /// How much electricity does it use?
+        /// </summary>
         public float? ElectricityRating { get; set; }
-        
+
+        /// <summary>
+        /// How efficient is this object? Is used as a multiplier.
+        /// </summary>
         public float? EfficiencyModifier { get; set; }
-        
+
         /// <summary>
         /// All the places a Tiny can interact with/from with the furniture.
         /// </summary>
         public ActionSpotConfig[] ActionSpots { get; set; }
-    
+
         public TableSpotsConfig TableSpots { get; set; }
 
         public PicnicTableSpotsConfig PicnicTableSpots { get; set; }

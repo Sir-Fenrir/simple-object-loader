@@ -1,12 +1,11 @@
-﻿using ExtremelySimpleLogger;
-using HarmonyLib;
+﻿using HarmonyLib;
 using Newtonsoft.Json;
+using SimpleObjectLoader.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TinyLife.Mods;
-using TinyLife.Objects;
 
 namespace SimpleObjectLoader.Config
 {
@@ -22,8 +21,6 @@ namespace SimpleObjectLoader.Config
         /// </summary>
         private static readonly string[] CONFIG_EXTENSIONS = [".simple.json", ".simple.json5", ".simple.jsonc"];
 
-        public static Logger Logger = SimpleObjectLoader.Logger;
-
         /// <summary>
         /// Search for all simple mods.
         /// </summary>
@@ -36,7 +33,7 @@ namespace SimpleObjectLoader.Config
                 .Where(config => config != null)
                 .ToList();
 
-            Logger.Info($"{modConfigs.Count} mods discovered");
+            SOL.Logger.Info($"{modConfigs.Count} mods discovered");
 
             return modConfigs;
         }
@@ -58,8 +55,7 @@ namespace SimpleObjectLoader.Config
             }
             catch (Exception ex)
             {
-                Logger.Warn($"Failed to load the {file}:", ex);
-                SimpleObjectLoader.Errors.Add($"Failed to read the file {file}");
+                SOL.Report($"Failed to read the file {file}", ex);
                 return null;
             }
 
