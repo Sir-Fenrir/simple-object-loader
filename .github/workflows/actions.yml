@@ -15,4 +15,5 @@ jobs:
           with:
             # The name of the task to execute. Note that this argument must be supported by the script.
             target: Build
+            script-path: ../build.cake
           
