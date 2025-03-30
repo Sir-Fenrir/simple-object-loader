@@ -1,6 +1,7 @@
 # Simple Object Loader
 
-Made to make the creation of new furniture and clothes easier, as long as no complex/new behaviors are required.
+Made to make the creation of new furniture, clothes, wallpapers and tiles easier, as long as no complex/new behaviors are required.
+For a complete example, take a look at: https://github.com/Sir-Fenrir/tiny-life-simple-custom-objects
 
 ## Setup
 When creating new objects to load using this mod, there are a few steps that are required:
@@ -114,7 +115,7 @@ For options, take a look under the header <b>Fields</b> on https://docs.tinylife
 
 **defaultRotation**
 
-In case you want to set a default rotation for the object, for options see https://mlem.ellpeck.de/api/MLEM.Misc.Direction2.html.
+In case you want to set a default rotation for the object, for options see [MLEM.Misc.Direction2](https://mlem.ellpeck.de/api/MLEM.Maths.Direction2.html).
 
 **tableSpots**
 
@@ -148,7 +149,7 @@ These properties are as follows, but I have to admit, I'm not much of a texture-
 
 **direction**
 
-For options for this, look under the **Fields** section on https://mlem.ellpeck.de/api/MLEM.Misc.Direction2Helper.html.
+For options for this, look under the **Fields** section on [MLEM.Misc.Direction2Helper](https://mlem.ellpeck.de/api/MLEM.Maths.Direction2Helper.html).
 
 **drawLayer**
 
@@ -318,6 +319,5 @@ https://github.com/Sir-Fenrir/tiny-life-simple-custom-objects
 # Future Features
 I have some plans for upcoming features:
 
-- Support for wallpapers and tiles.
 - Icon support to show which mod an item is from.
 - User interface element showing all the loaded mods.
