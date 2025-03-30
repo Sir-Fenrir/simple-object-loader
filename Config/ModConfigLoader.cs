@@ -1,12 +1,11 @@
-﻿using ExtremelySimpleLogger;
-using HarmonyLib;
+﻿using HarmonyLib;
 using Newtonsoft.Json;
+using SimpleObjectLoader.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using TinyLife.Mods;
-using TinyLife.Objects;
 
 namespace SimpleObjectLoader.Config
 {
@@ -22,8 +21,6 @@ namespace SimpleObjectLoader.Config
         /// </summary>
         private static readonly string[] CONFIG_EXTENSIONS = [".simple.json", ".simple.json5", ".simple.jsonc"];
 
-        public static Logger Logger = SimpleObjectLoader.Logger;
-
         /// <summary>
         /// Search for all simple mods.
         /// </summary>
@@ -33,18 +30,17 @@ namespace SimpleObjectLoader.Config
             var modConfigs = Directory.EnumerateFiles(ModLoader.GetModsFolder().FullName, "*", SearchOption.AllDirectories)
                 .Where(file => CONFIG_EXTENSIONS.Any(file.ToLower().EndsWith))
                 .Select(MapFileToObject)
+                .Where(config => config != null)
                 .ToList();
 
-            Logger.Info($"{modConfigs.Count} mods discovered");
+            SOL.Logger.Info($"{modConfigs.Count} mods discovered");
 
             return modConfigs;
         }
 
         /// <summary>
-        /// Parse a file into a list of <see cref="FurnitureConfig"/>s,
-        /// regardless whether there is only one item or more in the file.
+        /// Parse a file into a list of Configs.
         /// 
-        /// When the old config is fully removed, this method will get a proper refactor.
         /// </summary>
         /// <param name="file">The file to read</param>
         /// <returns>All succesfully loaded configurations</returns>
@@ -59,33 +55,14 @@ namespace SimpleObjectLoader.Config
             }
             catch (Exception ex)
             {
-                Logger.Warn($"Failed to load the {file}:", ex);
-                Logger.Info($"Trying the legacy configuration");
-
-                try
-                {
-
-                    if (json.StartsWith("[")) // This means there are multiple configs in this file
-                    {
-                        mod.Furniture = JsonConvert.DeserializeObject<FurnitureConfig[]>(json);
-                    }
-                    else
-                    {
-                        mod.Furniture = [JsonConvert.DeserializeObject<FurnitureConfig>(json)];
-                    }
-
-                    mod.ModId = mod.Furniture[0].ModId;
-
-                }
-                catch (Exception e)
-                {
-                    Logger.Warn($"Failed to load the {file} for the legacy config:", e);
-                }
+                SOL.Report($"Failed to read the file {file}", ex);
+                return null;
             }
 
             mod.FilePath = Path.GetDirectoryName(file);
 
-            mod.Furniture.Do(f => {
+            mod.Furniture.Do(f =>
+            {
                 f.Atlas = $"{mod.FilePath}\\{f.Atlas}";
                 f.Name = $"{mod.ModId}.{f.Name}";
             });

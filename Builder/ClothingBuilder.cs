@@ -2,7 +2,6 @@
 using SimpleObjectLoader.Config;
 using SimpleObjectLoader.Utils;
 using System;
-using System.Linq;
 using TinyLife.Objects;
 
 namespace SimpleObjectLoader.Builder
@@ -19,9 +18,9 @@ namespace SimpleObjectLoader.Builder
             var intentions = ObjectUtils.ParseClothingIntentions(_config.ClothesIntention);
 
             newItem = new Clothes(
-                $"SimpleObjectLoader.{_config.Name}", 
+                $"SimpleObjectLoader.{_config.Name}",
                 Enum.Parse<ClothesLayer>(_config.Layer, true),
-                _config.TextureRegions, 
+                _config.TextureRegions,
                 new Point(_config.FirstColumn, _config.FirstRow),
                 _config.Price,
                 intentions,

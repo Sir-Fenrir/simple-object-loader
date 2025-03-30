@@ -1,13 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
-using MLEM.Data;
-using MLEM.Data.Content;
 using MLEM.Textures;
 using SimpleObjectLoader.Config;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TinyLife.World;
 
 namespace SimpleObjectLoader.Utils
@@ -15,39 +9,58 @@ namespace SimpleObjectLoader.Utils
     public class TextureUtils
     {
 
-        public static TextureConfig[] LoadTextures(RuntimeTexturePacker texturePacker, RawContentManager content, TextureConfig[] textures)
+        public static TextureConfig[] LoadGenericTextures(TextureConfig[] textures)
+        {
+            return LoadTextures(GenericTextures(), textures);
+        }
+
+        public static TextureConfig[] LoadWallPaperTextures(TextureConfig[] textures)
+        {
+            return LoadTextures(WallPaperTextures(), textures);
+        }
+
+        /// <summary>
+        /// Generic texture loader
+        /// </summary>
+        /// <param name="loader">The function to load specific textures</param>
+        /// <param name="texturePacker"></param>
+        /// <param name="textures"></param>
+        /// <returns></returns>
+        private static TextureConfig[] LoadTextures(Func<TextureConfig, UniformTextureAtlas> loader,
+            TextureConfig[] textures)
         {
             foreach (var texture in textures)
             {
-                texturePacker.Add(
-                    new UniformTextureAtlas(
-                        content.Load<Texture2D>(texture.File),
-                        texture.NrOfColumns,
-                        texture.NrOfRows
+                SOL.Try(
+                        () => SOL.TexturePacker.Add(
+                            loader(texture),
+                            r => texture.TextureRegions = r,
+                            1,
+                            true
                         ),
-                    r => texture.TextureRegions = r,
-                    1,
-                    true
+                        $"Failed to load textures for {texture.Name}"
                     );
             }
 
             return textures;
         }
 
-        public static TextureConfig[] LoadWallPaperTextures(RuntimeTexturePacker texturePacker, RawContentManager content, TextureConfig[] textures)
+        private static Func<TextureConfig, UniformTextureAtlas> WallPaperTextures()
         {
-            foreach (var texture in textures)
-            {
-                WallMode.ApplyMasks(
-                    content.Load<Texture2D>(texture.File),
+            return (texture) => WallMode.ApplyMasks(
+                    SOL.Content.Load<Texture2D>(texture.File),
                     texture.NrOfColumns,
-                    texture.NrOfRows,
-                    texturePacker,
-                    r => texture.TextureRegions = r
+                    texture.NrOfRows
                     );
-            }
+        }
 
-            return textures;
+        private static Func<TextureConfig, UniformTextureAtlas> GenericTextures()
+        {
+            return (texture) => new UniformTextureAtlas(
+                        SOL.Content.Load<Texture2D>(texture.File),
+                        texture.NrOfColumns,
+                        texture.NrOfRows
+                        );
         }
     }
 }

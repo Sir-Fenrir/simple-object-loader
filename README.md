@@ -155,6 +155,47 @@ For options for this, look under the **Fields** section on [MLEM.Misc.Direction2
 
 Basically, they influence the position the Tiny can interact with the object and it's position relative to the object when using it.
 
+##### Even more actionSpots
+There are also other types of actionspots, which sometimes require different properties. Here is a complete list and their requirements:
+- actionSpots
+	- **vectorX**
+	- **vectorY**
+	- **yOffset**
+	- **direction**
+	- **drawLayer**
+- tableSpots
+	- **yOffset**
+	- **drawLayer**
+	- **size**
+		- _Example: [1, 2], this would be a table of 1 by 2. So in the JSON this line would say "size": [1, 2]_.
+	- **height**
+- picnicTableSpots
+	- **yOffset**
+	- **drawLayer**
+	- **size**
+		- _Same as with tableSpots_.
+- singleShelfSpots
+	- **yOffset**
+	- **drawLayer**
+	- **height**
+- deskSpots
+	- **yOffset**
+	- **drawLayer**
+	- **chairs**
+		- _Either true or false._
+- counterSpots
+	- **yOffset**
+	- **drawLayer**
+	- **stove**
+		- _Is it a stove? True or false._
+- barSpots
+	- **yOffset**
+	- **drawLayer**
+- treeSpots
+	- **yOffset**
+	- **drawLayer**
+
+For more information, look at [ObjectSpot](https://docs.tinylifegame.com/api/TinyLife.Objects.ObjectSpot.html)
 
 ### Clothes
 Clothes obviously don't have the same properties as furniture, so for them we have to use a different set!
@@ -233,29 +274,29 @@ Let's use an example:
  
 File: ExpensiveChair.atlas
 ```
-SimpleObjectLoader.ExpensiveChair.ExpensiveChairLeft
+SimpleObjectLoader.SimpleExample.ExpensiveChairLeft
 loc 0 0 32 32
 piv 16 25
 
-SimpleObjectLoader.ExpensiveChair.ExpensiveChairUp
+SimpleObjectLoader.SimpleExample.ExpensiveChairUp
 loc 0 32 32 32
 piv 16 57
 
-SimpleObjectLoader.ExpensiveChair.ExpensiveChairRight
+SimpleObjectLoader.SimpleExample.ExpensiveChairRight
 loc 0 64 32 32
 piv 16 89
 
-SimpleObjectLoader.ExpensiveChair.ExpensiveChairDown
+SimpleObjectLoader.SimpleExample.ExpensiveChairDown
 loc 0 96 32 32
 piv 16 121
 ```
 
 (Made by McChicky from the Ellpeck Games Discord, modified by me)
 
-This file (which can be seen in https://github.com/Sir-Fenrir/tiny-life-simple-expensive-chair) tells the game which parts of the texture file of the same name (ExpensiveChair.png) 
+This file (which can be seen in https://github.com/Sir-Fenrir/tiny-life-simple-custom-objects) tells the game which parts of the texture file of the same name (ExpensiveChair.png) 
 should be used for the furniture, depending on the camera orientation.
 
-It's very important to point out that the names you see all start with _SimpleObjectLoader_. The second part, _ExpensiveChair_ is the ModId. 
+It's very important to point out that the names you see all start with _SimpleObjectLoader_. The second part, _SimpleExample_ is the ModId. 
 The last part _before_ Left, Up, Right and Down is the _name_ of the object. The _SimpleObjectLoader_ part is very important, 
 because this chair is loaded using the Simple Object Loader mod, which means that in the eyes of the game, my mod is the one responsible for your new furniture, instead of you. 
 That also means it will use the id of _my_ mod to load things like textures and localization files. So if you omit the 'SimpleObjectLoader' part, your mod will fail to load.
@@ -267,7 +308,7 @@ File: Localization/en.json
 ```json
 {
     "BuildMode": {
-        "SimpleObjectLoader.ExpensiveChair.ExpensiveChair": "An Expensive Chair"
+        "SimpleObjectLoader.SimpleExample.ExpensiveChair": "An Expensive Chair"
     }
 }
 
@@ -303,12 +344,12 @@ A useful feature on the Steam Workshop is the ability to add mods your mod depen
 
 
 # Help! My mod does not show up in the ingame list of mods!
-Yes, that is correct. Basically, the game spots _my_ mod, but not _your_ mod, because your mod doesn't have any code associated with it. My mod aims to load your mod anyway, but it can't make the game aware that there are more mods. This means that, from the perspective of the game, all furniture loaded in this manner belong to Simple Object Loader, meaning, I'm stealing all your credit! Ha!
+Yes, that is correct. Basically, the game spots _my_ mod, but not _your_ mod, because your mod doesn't have any code associated with it. My mod aims to load your mod anyway, but it can't make the game aware that there are more mods. 
 
-...I don't want to steal your credit. I'm happy enough with this mod. In the future I will add an user interface element displaying all the mods that have been loaded, but right now I'm focussing on the basic functionalities. 
+To make sure you get credit for your mods, users can open a window from the ingame configuration screen from the Simple Object Loader config. This window shows all loaded mods.
 
 # Supported items
-Frankly, not sure. I have tested chairs and tables, but I haven't tested more types of items, like fridges or beds. I will work on this, but it's a hobby project and I am probably straining my RSI arms too much already :')
+Theoretically, every base game type of item should work, but not everything has been tested.
 If you have tested a different kind of item and it didn't work, please open an issue here on GitHub!
 
 # Example mods
@@ -320,4 +361,6 @@ https://github.com/Sir-Fenrir/tiny-life-simple-custom-objects
 I have some plans for upcoming features:
 
 - Icon support to show which mod an item is from.
-- User interface element showing all the loaded mods.
+
+# Issues?
+If you encounter any issues while loading mods, please take a look at the loaded mods screen. When opening the configuration for Simple Object Loader, it shows a button to list all loaded mods. It also has a list of errors.

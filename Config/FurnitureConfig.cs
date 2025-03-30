@@ -1,36 +1,17 @@
-﻿using SimpleObjectLoader.Utils;
-using System.Collections.Generic;
-using MLEM.Misc;
-using System;
-
-/// TODO: Split up and move ModId to a encompassing all types
+﻿/// TODO: Split up and move ModId to a encompassing all types
 
 namespace SimpleObjectLoader.Config
 {
     /// <summary>
     /// Configuration for the mod to load.
     /// </summary>
-    public class FurnitureConfig : IConfig
+    public class FurnitureConfig : Named, IConfig
     {
-
-        /// <summary>
-        /// Unique name for the mod. You can have multiple items with the same identifier, but the name needs to be unique within this mod.
-        /// </summary>
-        [Obsolete("In the future, this will be read from  ModConfig.")]
-        public string ModId { get; set; }
 
         /// <summary>
         /// This is for specific types of furniture, the possible types are listed under the <b>Derived</b> section on <see href="https://docs.tinylifegame.com/api/TinyLife.Objects.Furniture.html"/>.
         /// </summary>
         public string Type { get; set; }
-
-        /// <summary>
-        /// The name of the item when registering it.
-        /// NOTE: This is not the name used in the game,
-        /// for that we need the localization files.
-        /// This name is used to find the relevant entries in the localization files and the atlas file.
-        /// </summary>
-        public string Name { get; set; }
 
         public int Price { get; set; }
 
@@ -45,7 +26,7 @@ namespace SimpleObjectLoader.Config
         /// For when you want to specify which tab the object appears in in the build menu.
         /// Possible tabs are under the tag <b>Fields</b> on <see href="https://docs.tinylifegame.com/api/TinyLife.Tools.FurnitureTool.Tab.html"/>
         /// </summary>
-        public string Tab {  get; set; }
+        public string Tab { get; set; }
 
         /// <summary>
         /// If this object requires a specific texture (like wallpapers or clothing), we need the name of the file.
@@ -75,16 +56,6 @@ namespace SimpleObjectLoader.Config
         public string DefaultRotation { get; set; }
 
         /// <summary>
-        /// If you're creating a table, you need some spots to sit. Generally this can be the same as <see cref="Size"/>.
-        /// </summary>
-        public int[] TableSpots { get; set; }
-
-        /// <summary>
-        /// All the places a Tiny can interact with/from with the furniture.
-        /// </summary>
-        public ActionSpotConfig[] ActionSpots { get; set; }
-
-        /// <summary>
         /// Set the colors for the different layers, if applicable.
         /// It is an array, with as many elements as there are layers in your textures. 
         /// The numbers in it correspond to the given <see cref="ColorSchemes"/>. 
@@ -97,5 +68,44 @@ namespace SimpleObjectLoader.Config
         /// When this value is set, it modifies the need restoration rate of the need for this type of furniture.
         /// </summary>
         public float? NeedModifier { get; set; }
+
+        /// <summary>
+        /// Defines the water usage. 
+        /// </summary>
+        public float? WaterRating { get; set; }
+
+        /// <summary>
+        /// How pretty is it?
+        /// </summary>
+        public float? DecorativeRating { get; set; }
+
+        /// <summary>
+        /// How much electricity does it use?
+        /// </summary>
+        public float? ElectricityRating { get; set; }
+
+        /// <summary>
+        /// How efficient is this object? Is used as a multiplier.
+        /// </summary>
+        public float? EfficiencyModifier { get; set; }
+
+        /// <summary>
+        /// All the places a Tiny can interact with/from with the furniture.
+        /// </summary>
+        public ActionSpotConfig[] ActionSpots { get; set; }
+
+        public TableSpotsConfig TableSpots { get; set; }
+
+        public PicnicTableSpotsConfig PicnicTableSpots { get; set; }
+
+        public SingleShelfSpotsConfig SingleShelfSpots { get; set; }
+
+        public DeskSpotsConfig DeskSpots { get; set; }
+
+        public CounterSpotsConfig CounterSpots { get; set; }
+
+        public GenericSpotConfig BarSpots { get; set; }
+
+        public GenericSpotConfig TreeSpots { get; set; }
     }
 }

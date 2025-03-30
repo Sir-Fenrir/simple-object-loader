@@ -1,16 +1,12 @@
-﻿using Microsoft.Xna.Framework;
-using MLEM.Textures;
-using System;
+﻿using MLEM.Textures;
 using System.Collections.Generic;
-using System.Drawing;
 using Point = Microsoft.Xna.Framework.Point;
 
 namespace SimpleObjectLoader.Config
 {
-    public class TextureConfig : IConfig
+    public class TextureConfig : Named, IConfig
     {
 
-        public string Name { get; set; }
         public string File { get; set; }
 
         /// <summary>

@@ -1,10 +1,10 @@
-﻿using ExtremelySimpleLogger;
+﻿using HarmonyLib;
 using Microsoft.Xna.Framework;
 using MLEM.Maths;
-using MLEM.Misc;
 using SimpleObjectLoader.Config;
 using SimpleObjectLoader.Utils;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using TinyLife.Objects;
 using TinyLife.Tools;
@@ -15,12 +15,11 @@ namespace SimpleObjectLoader.Builder
     /// <summary>
     /// Dynamically builds a piece of furniture based on the properties filled in the JSON file.
     /// </summary>
+    [SuppressMessage("ReSharper", "PossibleInvalidOperationException")]
     internal class FurnitureBuilder(FurnitureConfig config) : AbstractBuilder(config, typeof(FurnitureBuilder))
     {
-
-        private FurnitureType.TypeSettings _typeSettings;
-
         private readonly FurnitureConfig _config = config;
+        private FurnitureType.TypeSettings _typeSettings;
 
         /// <summary>
         /// Initialize the basics of a Furniture object.
@@ -31,7 +30,7 @@ namespace SimpleObjectLoader.Builder
 
             var selectedColorSchemes = ObjectUtils.ParseColorSchemes(config.ColorSchemes);
             _typeSettings = new FurnitureType.TypeSettings($"SimpleObjectLoader.{config.Name}",
-            new Point(_config.Size[0], _config.Size[1]),
+                new Point(_config.Size[0], _config.Size[1]),
                 combinedCategories,
                 _config.Price,
                 selectedColorSchemes);
@@ -40,9 +39,12 @@ namespace SimpleObjectLoader.Builder
         [HandlerFor("Type")]
         public void Type()
         {
+            ObjectUtils.Types.Do(_type => SOL.Logger.Info(_type.Key));
+
             // Set special ConstructedType, if any
             if (ObjectUtils.Types.TryGetValue(_config.Type.ToLower(), out var type))
             {
+                SOL.Logger.Info(type.Name);
                 _typeSettings.ConstructedType = type;
             }
         }
@@ -55,23 +57,6 @@ namespace SimpleObjectLoader.Builder
             FurnitureType.Register(_typeSettings);
         }
 
-        /// <summary>
-        /// Executed if the <see cref="FurnitureConfig.ActionSpots"/> property is not null.
-        /// </summary>
-        [HandlerFor("ActionSpots")]
-        public void ActionSpots()
-        {
-            _typeSettings.ActionSpots = _config.ActionSpots
-                    .Select(spot =>
-                    new ActionSpot(
-                        new Vector2(spot.VectorX, spot.VectorY),
-                        spot.YOffset,
-                        ObjectUtils.Directions[spot.Direction.ToLower()])
-                    {
-                        DrawLayer = f => spot.DrawLayer
-                    })
-                    .ToArray();
-        }
 
         /// <summary>
         /// Executed if the <see cref="FurnitureConfig.ColorMap"/> property is not null.
@@ -84,22 +69,6 @@ namespace SimpleObjectLoader.Builder
                 Map = _config.ColorMap
             };
             _typeSettings.Colors = colorSettings;
-        }
-
-        /// <summary>
-        /// Executed if the <see cref="FurnitureConfig.TableSpots"/> property is not null.
-        /// </summary>
-        [HandlerFor("TableSpots")]
-        public void TableSpots()
-        {
-            _typeSettings.ObjectSpots =
-            [
-                .. ObjectSpot.TableSpots(
-                                new Point(
-                                    _config.TableSpots[0],
-                                    _config.TableSpots[1])
-                                ),
-            ];
         }
 
         /// <summary>
@@ -124,6 +93,198 @@ namespace SimpleObjectLoader.Builder
         public void NeedModifier()
         {
             _typeSettings.RestoreNeedModifier = (float)_config.NeedModifier;
+        }
+
+        [HandlerFor("WaterRating")]
+        public void WaterRating()
+        {
+            _typeSettings.WaterRating = (float)_config.WaterRating;
+        }
+
+        [HandlerFor("ElectricityRating")]
+        public void ElectricityRating()
+        {
+            _typeSettings.ElectricityRating = (float)_config.ElectricityRating;
+        }
+
+        [HandlerFor("EfficiencyModifier")]
+        public void EfficiencyModifier()
+        {
+            _typeSettings.EfficiencyModifier = (float)_config.EfficiencyModifier;
+        }
+
+        [HandlerFor("DecorativeRating")]
+        public void DecorativeRating()
+        {
+            _typeSettings.DecorativeRating = _ => (float)_config.DecorativeRating;
+        }
+
+        /// <summary>
+        /// Executed if the <see cref="FurnitureConfig.ActionSpots"/> property is not null.
+        /// </summary>
+        [HandlerFor("ActionSpots")]
+        public void ActionSpots()
+        {
+            _typeSettings.ActionSpots = _config.ActionSpots
+                .Select(spot =>
+                    new ActionSpot(
+                        new Vector2((float)spot.VectorX, (float)spot.VectorY),
+                        (float)spot.YOffset,
+                        ObjectUtils.Directions[spot.Direction.ToLower()])
+                    {
+                        DrawLayer = f => (float)spot.DrawLayer
+                    })
+                .ToArray();
+        }
+
+        /// <summary>
+        /// Executed if the <see cref="FurnitureConfig.TableSpots"/> property is not null.
+        /// </summary>
+        [HandlerFor("TableSpots")]
+        public void TableSpots()
+        {
+            var point = new Point(
+                _config.TableSpots.Size[0],
+                _config.TableSpots.Size[1]);
+
+            if (_config.TableSpots.Height != null && _config.TableSpots.DrawLayer != null)
+            {
+                _typeSettings.ObjectSpots =
+                [
+                    .. ObjectSpot.TableSpots(
+                        point,
+                        (float)_config.TableSpots.Height,
+                        (float)_config.TableSpots.DrawLayer
+                    ),
+                ];
+            }
+            else
+            {
+                _typeSettings.ObjectSpots = [.. ObjectSpot.TableSpots(point)];
+            }
+        }
+
+        [HandlerFor("PicnicTableSpots")]
+        public void PicnicTableSpots()
+        {
+            var point = new Point(
+                _config.PicnicTableSpots.Size[0],
+                _config.PicnicTableSpots.Size[1]);
+
+            if (_config.PicnicTableSpots.DrawLayer != null)
+            {
+                _typeSettings.ObjectSpots =
+                [
+                    .. ObjectSpot.PicnicTableSpots(
+                        point,
+                        (float)_config.PicnicTableSpots.DrawLayer
+                    ),
+                ];
+            }
+            else
+            {
+                _typeSettings.ObjectSpots = [.. ObjectSpot.PicnicTableSpots(point)];
+            }
+        }
+
+        [HandlerFor("SingleShelfSpots")]
+        public void SingleShelfSpots()
+        {
+            if (_config.SingleShelfSpots.Height != null && _config.SingleShelfSpots.DrawLayer != null)
+            {
+                _typeSettings.ObjectSpots =
+                [
+                    .. ObjectSpot.SingleShelfSpots(
+                        (float)_config.SingleShelfSpots.Height,
+                        (float)_config.SingleShelfSpots.DrawLayer
+                    ),
+                ];
+            }
+            else
+            {
+                _typeSettings.ObjectSpots = [.. ObjectSpot.SingleShelfSpots()];
+            }
+        }
+
+        [HandlerFor("DeskSpots")]
+        public void DeskSpots()
+        {
+            if (_config.DeskSpots.YOffset != null && _config.DeskSpots.DrawLayer != null)
+            {
+                _typeSettings.ObjectSpots =
+                [
+                    .. ObjectSpot.DeskSpots(
+                        (float)_config.DeskSpots.YOffset,
+                        _config.DeskSpots.Chairs,
+                        (float)_config.DeskSpots.DrawLayer
+                    ),
+                ];
+            }
+            else
+            {
+                _typeSettings.ObjectSpots = [.. ObjectSpot.DeskSpots(chairs: _config.DeskSpots.Chairs)];
+            }
+        }
+
+        /// <summary>
+        /// Executed if the <see cref="FurnitureConfig.Counter"/> property is not null.
+        /// </summary>
+        [HandlerFor("CounterSpots")]
+        public void CounterSpots()
+        {
+            if (_config.CounterSpots.YOffset != null && _config.CounterSpots.DrawLayer != null)
+            {
+                _typeSettings.ObjectSpots =
+                [
+                    .. ObjectSpot.CounterSpots(
+                        _config.CounterSpots.Stove,
+                        (float)_config.CounterSpots.YOffset,
+                        (float)_config.CounterSpots.DrawLayer
+                    ),
+                ];
+            }
+            else
+            {
+                _typeSettings.ObjectSpots = [.. ObjectSpot.CounterSpots(stove: _config.CounterSpots.Stove)];
+            }
+        }
+
+        [HandlerFor("BarSpots")]
+        public void BarSpots()
+        {
+            if (_config.BarSpots.YOffset != null && _config.BarSpots.DrawLayer != null)
+            {
+                _typeSettings.ObjectSpots =
+                [
+                    .. ObjectSpot.BarSpots(
+                        (float)_config.BarSpots.YOffset,
+                        (float)_config.BarSpots.DrawLayer
+                    ),
+                ];
+            }
+            else
+            {
+                _typeSettings.ObjectSpots = [.. ObjectSpot.BarSpots()];
+            }
+        }
+
+        [HandlerFor("TreeSpots")]
+        public void TreeSpots()
+        {
+            if (_config.TreeSpots.YOffset != null && _config.TreeSpots.DrawLayer != null)
+            {
+                _typeSettings.ObjectSpots =
+                [
+                    .. ObjectSpot.TreeSpots(
+                        (float)_config.TreeSpots.YOffset,
+                        (float)_config.TreeSpots.DrawLayer
+                    ),
+                ];
+            }
+            else
+            {
+                _typeSettings.ObjectSpots = [.. ObjectSpot.TreeSpots()];
+            }
         }
     }
 }
