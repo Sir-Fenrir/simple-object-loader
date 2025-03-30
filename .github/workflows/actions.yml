@@ -1,0 +1,17 @@
+on: 
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+      runs-on: windows-latest
+      steps:
+        - name: Cake Action
+        # You may pin to the exact commit or the version.
+        # uses: cake-build/cake-action@5167c3f6a9e15c76f009de2acdfb9488552bc0b9
+          uses: cake-build/cake-action@v3.0.0
+          with:
+            # The name of the task to execute. Note that this argument must be supported by the script.
+            target: Build
+          
