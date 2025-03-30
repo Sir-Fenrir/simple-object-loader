@@ -6,10 +6,10 @@ on:
 
 jobs:
   build:
-      runs-on: windows-latest
+      runs-on: ubuntu-latest
       steps:
         - name: Debug
-          run: ls
+          run: ls -a
           
         - name: Cake Action
         # You may pin to the exact commit or the version.
