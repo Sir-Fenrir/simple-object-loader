@@ -3,6 +3,8 @@ updates:
   # Enable version updates for nuget
   - package-ecosystem: "nuget"
     directory: "/"
+    allow:
+      - dependency-name: "TinyLife.ApiReference"
     # Check the nuget registry for updates every day (weekdays)
     schedule:
       interval: "daily"
