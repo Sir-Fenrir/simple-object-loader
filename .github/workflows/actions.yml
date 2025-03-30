@@ -8,6 +8,9 @@ jobs:
   build:
       runs-on: windows-latest
       steps:
+        - name: Debug
+          run: ls -a
+          
         - name: Cake Action
         # You may pin to the exact commit or the version.
         # uses: cake-build/cake-action@5167c3f6a9e15c76f009de2acdfb9488552bc0b9
