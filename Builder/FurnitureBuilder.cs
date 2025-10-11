@@ -92,25 +92,25 @@ namespace SimpleObjectLoader.Builder
         [HandlerFor("NeedModifier")]
         public void NeedModifier()
         {
-            _typeSettings.RestoreNeedModifier = (float)_config.NeedModifier;
+            _typeSettings.RestoreNeedModifier = _ => (float)_config.NeedModifier;
         }
 
         [HandlerFor("WaterRating")]
         public void WaterRating()
         {
-            _typeSettings.WaterRating = (float)_config.WaterRating;
+            _typeSettings.WaterRating = _ => (float)_config.WaterRating;
         }
 
         [HandlerFor("ElectricityRating")]
         public void ElectricityRating()
         {
-            _typeSettings.ElectricityRating = (float)_config.ElectricityRating;
+            _typeSettings.ElectricityRating = _ => (float)_config.ElectricityRating;
         }
 
         [HandlerFor("EfficiencyModifier")]
         public void EfficiencyModifier()
         {
-            _typeSettings.EfficiencyModifier = (float)_config.EfficiencyModifier;
+            _typeSettings.EfficiencyModifier = _ => (float)_config.EfficiencyModifier;
         }
 
         [HandlerFor("DecorativeRating")]

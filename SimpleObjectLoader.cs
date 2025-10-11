@@ -26,13 +26,13 @@ public class SimpleObjectLoader : Mod
 
     public override string Description => "A way to add custom objects without programming, made by Sir-Fenrir";
     public override string IssueTrackerUrl => "https://github.com/Sir-Fenrir/simple-object-loader/issues";
-    public override string TestedVersionRange => "[0.47.3]";
+    public override string TestedVersionRange => "[0.48.2]";
 
     private List<ModConfig> modConfigs;
 
 
     public override void Initialize(Logger logger, RawContentManager content, RuntimeTexturePacker texturePacker, ModInfo info)
-    {
+    {           
         // Initialize the shared values
         SOL.Init(logger, content, texturePacker);
 
@@ -45,9 +45,9 @@ public class SimpleObjectLoader : Mod
         // Load all textures for clothes, tiles and wallpapers.
         // Textures for furniture work differently.
         // They're loaded using GetCustomFurnitureTextures.
-        TextureUtils.LoadGenericTextures(modConfigs.SelectMany(m => m.Clothes).ToArray());
-        TextureUtils.LoadGenericTextures(modConfigs.SelectMany(m => m.Tiles).ToArray());
-        TextureUtils.LoadWallPaperTextures(modConfigs.SelectMany(m => m.Wallpapers).ToArray());
+        TextureUtils.LoadGenericTextures([.. modConfigs.SelectMany(m => m.Clothes)]);
+        TextureUtils.LoadGenericTextures([.. modConfigs.SelectMany(m => m.Tiles)]);
+        TextureUtils.LoadWallPaperTextures([.. modConfigs.SelectMany(m => m.Wallpapers)]);
     }
 
     public override void AddGameContent(GameImpl game, ModInfo info)

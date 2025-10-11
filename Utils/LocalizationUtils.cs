@@ -1,9 +1,11 @@
 ﻿using HarmonyLib;
 using Newtonsoft.Json.Linq;
 using SimpleObjectLoader.Config;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using TinyLife;
 using TinyLife.Mods;
 
 namespace SimpleObjectLoader.Utils
@@ -82,7 +84,7 @@ namespace SimpleObjectLoader.Utils
         private static string GetLocalizationDir()
         {
             var currentDir = Directory
-                .GetFiles(ModLoader.GetModsFolder().FullName, MOD_DLL, SearchOption.AllDirectories)
+                .GetFiles(SaveHandler.GetModsDir().FullName, MOD_DLL, SearchOption.AllDirectories)
                 .Select(Path.GetDirectoryName)
                 .First();
 

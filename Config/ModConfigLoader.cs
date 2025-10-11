@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using TinyLife;
 using TinyLife.Mods;
 
 namespace SimpleObjectLoader.Config
@@ -27,7 +28,7 @@ namespace SimpleObjectLoader.Config
         /// <returns>A list of simple mod configurations</returns>
         public List<ModConfig> GetMods()
         {
-            var modConfigs = Directory.EnumerateFiles(ModLoader.GetModsFolder().FullName, "*", SearchOption.AllDirectories)
+            var modConfigs = Directory.EnumerateFiles(SaveHandler.GetModsDir().FullName, "*", SearchOption.AllDirectories)
                 .Where(file => CONFIG_EXTENSIONS.Any(file.ToLower().EndsWith))
                 .Select(MapFileToObject)
                 .Where(config => config != null)
